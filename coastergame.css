@@ -1,5 +1,5 @@
 * {
-    background: burlywood;
+    background: white;
     font-family: sans-serif, Arial, Helvetica;
     box-sizing: border-box;
 }
@@ -51,29 +51,41 @@ manage the rides in the center of the page
 
 #log {
     border: 2px solid red;
-    margin-left: 250px;
+    margin-left: 300px;
     position: absolute;
     right: 10px;
-    top: 100px;
+    top: 10vh;
     padding: 25px 125px;
 }
 
 #stat {
+    position: absolute;
     border: 5px solid green;
+    margin-left: 50vh;
+    top: 55vh;
+    padding: 25px 125px;
+    right: 10px;
 }
 
-#finances {
+#financial {
     border: 5px solid rgb(98, 58, 58);
     position: absolute;
     right: 10px;
-    top: 265px;
+    top: 29vh;
     padding: 25px 125px;
     margin-left: 250px;
+    
+}
+
+#financial > button {
+    background: yellow;
 }
 
 #staff {
     border: 5px solid blue;
-
+    top: 65vh;
+    margin-left: 75vh;
+    padding: 10vh 50vh;
 }
 
 footer {

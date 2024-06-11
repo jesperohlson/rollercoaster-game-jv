@@ -12,21 +12,22 @@ const financeButton = document.getElementById('finances-buttons');
 const statsButton = document.getElementById('stats-buttons');
 const developButton = document.getElementById('developments-buttons');
 
-
-
-
 //variables
-let userMoney = 1000;
+
+let userMoney = JSON.parse(localStorage.getItem("userMoney")) || 1000;
 let admissionFee = 0;
 let guests = 0;
 let rating = 100;
 
+
 let numOfStores = 0;
 
-let inventory = [];
+let inventory = JSON.parse(localStorage.getItem("userData")) || [];
 let numOfRides = inventory.length;
 
 let moneyPerSec = guests * rating;
+let guestsPerSec = numOfRides * rating;
+
 
 //park multiplers
 //find avg money,guest,rating multiplers and apply to the user Money 
@@ -46,7 +47,7 @@ const coasters = [
         guestMultiplier: 1.1,
         ratingMultipler: 1  
     }
-]
+];
 
 const amusements = [
     {
@@ -63,6 +64,10 @@ const amusements = [
         guestMultiplier: 1.1,
         ratingMultipler: 1  
     }
+];
+
+const stores = [
+
 ]
 
 /*
@@ -71,11 +76,12 @@ update money, guests, rating per tick
 determine money multiplier policy 
 */
 function perTickMain() {
-    userMoney += 5; //figure out equation 
+    //add if statement to see if rating is going down or money flow is negative 
+    userMoney += 5;  //use Per Sec variables
     guests += 1;
    
     currentInvHTML.innerHTML = `
-        <h2><strong>Current</strong></h2>
+        <h2><strong>Current Inventory</strong></h2>
         <p><strong>Money:</strong> ${userMoney}</p>
         <p><strong>Guests:</strong> ${guests}</p>
     `;//update current  inventory
@@ -87,29 +93,38 @@ function perTickMain() {
     `;//update stats
 
     financesHTML.innerHTML = `
-    
         <h2><strong>Finances</strong></h2>
-        <p><strong>Money Flow:</strong> ${moneyPerSec}</p>
+        <p><strong>Money Flow:</strong> ${moneyPerSec * 8}</p>
         <p><strong>Debt Owned:</strong> (Insert HERE)</p>
-    
     `
 }
 
 
-function buy(obj, price) {
-    if(userMoney > price) {
+function buyCoaster(obj) {
+    if(userMoney >= price) {
         inventory.push(obj);
-        userMoney -= price;
+        userMoney -= coasters.price;
+    } else {
+        alert("Insufficient funds, collect more money!")
+    }
+}//buyCoaster
+
+function buyAmusements(obj) {
+    if(userMoney >= price) {
+        inventory.push(obj);
+        userMoney -= amusements.price;
     } else {
         alert("Insufficient funds, collect more money!")
     }
 }
 
-function sell(obj, price) {
-    /*
-    have to find specific object to remove and remove it from the inventory 
-    give back the price to the user money inventory 
-    */
+function buyStores(obj) {
+    if(userMoney >= price) {
+        inventory.push(obj);
+        userMoney -= stores.price;
+    } else {
+        alert("Insufficient funds, collect more money!")
+    }
 }
 
 function takeLoan(amount, rate) {
@@ -144,4 +159,8 @@ JSON.stringify
 key, value
 */
 
-const dataSave = localStorage.setItem("userData", JSON.stringify(inventory));
+// local storage variables 
+const inventorySave = localStorage.setItem("userData", JSON.stringify(inventory));
+const moneySave = localStorage.setItem("userMoney", JSON.stringify(userMoney));
+const guestsSave = localStorage.setItem("guests", JSON.stringify(guests));
+
