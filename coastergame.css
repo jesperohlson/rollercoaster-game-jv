@@ -84,7 +84,8 @@ manage the rides in the center of the page
 #staff {
     border: 5px solid blue;
     top: 65vh;
-    margin-left: 75vh;
+    margin-left: 20vh;
+    margin-right: 75vh;
     padding: 10vh 50vh;
 }
 
