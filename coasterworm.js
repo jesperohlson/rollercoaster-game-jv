@@ -16,12 +16,14 @@ const developButton = document.getElementById('developments-buttons');
 const loanButton = document.getElementById('loan-button');
 
 //money related variables
+const loanAmount = document.getElementById('loan-amount').value;
 let userMoney = JSON.parse(localStorage.getItem("userMoney")) || 1000;
 let admissionFee = 0;
 let guests = 0;
 let rating = 100;
 let loanRate = 0;
 let userLoanRate = 0;
+let debt = 0;
 
 //store variables
 let numOfStores = 0;
@@ -102,7 +104,7 @@ function perTickMain() {
     financesHTML.innerHTML = `
         <h2><strong>Finances</strong></h2>
         <p><strong>Money Per Second</strong> ${moneyPerSec * 8}</p>
-        <p><strong>Debt Owned:</strong> Insert here }</p>
+        <p><strong>Debt Owned:</strong> ${debt}</p>
     `
 }
 //determine loan rate (random number)
@@ -153,15 +155,18 @@ function buyStores(obj) {
     }
 }
 
-function takeLoan(amount) {
+//allow user to take a loan, breaks inventory money display
+function takeLoan() {
+   
+    const thisLoanRate = loanRate;
     
-    userMoney += amount;
+    userMoney = userMoney + loanAmount;
     
+
+    debt = loanAmount * thisLoanRate;
+   
 }
 /*
-
-
-
 use the inventory to find the avergage mutipler of all of the attreibutes of each items
 then update the money per tick shit 
 */
@@ -169,16 +174,14 @@ then update the money per tick shit
 loanButton.addEventListener('click', (e) => {
     e.preventDefault();
 
-    //add new html element and add text there with a fieldset where the user can add dollar amount to take
-
-    userLoanRate = loanRate;
     takeLoan();
+
 
 });
 
 
 window.setInterval(perTickMain, 175);//in ms
-window.setInterval(determineLoanRate, 1000);
+window.setInterval(determineLoanRate, 1000);//changes loan rate every second
 
 
 //add mechanic to buy and sell amusements 
