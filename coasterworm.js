@@ -1,4 +1,3 @@
-//JS for tha wiki and jeremy song coaster game
 
 //new DOM variables
 const currentInvHTML = document.getElementById('current-inventory');
@@ -12,22 +11,23 @@ const financeButton = document.getElementById('finances-buttons');
 const statsButton = document.getElementById('stats-buttons');
 const developButton = document.getElementById('developments-buttons');
 
-//variables
-
+//money related variables
 let userMoney = JSON.parse(localStorage.getItem("userMoney")) || 1000;
 let admissionFee = 0;
 let guests = 0;
 let rating = 100;
 
-
+//store variables
 let numOfStores = 0;
+let storeMultiplier = 0;
 
 let inventory = JSON.parse(localStorage.getItem("userData")) || [];
 let numOfRides = inventory.length;
 
-let moneyPerSec = guests * rating;
-let guestsPerSec = numOfRides * rating;
 
+let guestsPerSec = numOfRides * rating;
+let moneyPerSec = guests * admissionFee + numOfStores * storeMultiplier;
+//give each store a money per minute attribute and use it for above two equations
 
 //park multiplers
 //find avg money,guest,rating multiplers and apply to the user Money 
@@ -94,7 +94,7 @@ function perTickMain() {
 
     financesHTML.innerHTML = `
         <h2><strong>Finances</strong></h2>
-        <p><strong>Money Flow:</strong> ${moneyPerSec * 8}</p>
+        <p><strong>Money Per Second</strong> ${moneyPerSec * 8}</p>
         <p><strong>Debt Owned:</strong> (Insert HERE)</p>
     `
 }
