@@ -88,19 +88,8 @@ manage the rides in the center of the page
     padding-left: 20vh;
     padding-right: 70vh;
     top: 65vh;
-    margin-left: 20vh;
-    margin-right: 70vh;
-   
-    position: absolute;
-}
-
-#buypage {
-    padding-left: 20vh;
-    padding-right: 70vh;
-    top: 25vh;
-    margin-left: 20vh;
-    margin-right: 70vh;
-    bottom: 90vh;
+    margin-left: 75vh;
+    padding: 10vh 50vh;
 }
 
 footer {
