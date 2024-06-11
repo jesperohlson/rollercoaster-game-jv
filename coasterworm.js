@@ -3,6 +3,7 @@
 const currentInvHTML = document.getElementById('current-inventory');
 const statsHTML = document.getElementById('stat');
 const financesHTML = document.getElementById('finances');
+const loanRateHTML = document.getElementById('loan-rate');
 
 //pages (buttons)
 const mainButton = document.getElementById('main-menu');
@@ -11,11 +12,16 @@ const financeButton = document.getElementById('finances-buttons');
 const statsButton = document.getElementById('stats-buttons');
 const developButton = document.getElementById('developments-buttons');
 
+//new buttons 
+const loanButton = document.getElementById('loan-button');
+
 //money related variables
 let userMoney = JSON.parse(localStorage.getItem("userMoney")) || 1000;
 let admissionFee = 0;
 let guests = 0;
 let rating = 100;
+let loanRate = 0;
+let userLoanRate = 0;
 
 //store variables
 let numOfStores = 0;
@@ -79,6 +85,7 @@ function perTickMain() {
     //add if statement to see if rating is going down or money flow is negative 
     userMoney += 5;  //use Per Sec variables
     guests += 1;
+
    
     currentInvHTML.innerHTML = `
         <h2><strong>Current Inventory</strong></h2>
@@ -95,10 +102,29 @@ function perTickMain() {
     financesHTML.innerHTML = `
         <h2><strong>Finances</strong></h2>
         <p><strong>Money Per Second</strong> ${moneyPerSec * 8}</p>
-        <p><strong>Debt Owned:</strong> (Insert HERE)</p>
+        <p><strong>Debt Owned:</strong> Insert here }</p>
     `
 }
+//determine loan rate (random number)
+function determineLoanRate() {
 
+if(Math.random() * (10 - 0) > 5) {
+    loanRate += Math.abs(Math.random().toFixed(2));
+} else {
+    loanRate -= Math.abs(Math.random().toFixed(2)) * 0.5;
+}
+
+if(loanRate < 0) {
+    loanRate = 1.25;
+} else if (loanRate > 10) {
+    loanRate = 5;
+}
+
+loanRateHTML.innerHTML = `
+    <p><strong>Loan Rate:</strong> ${loanRate.toFixed(2)}%</p>
+`;
+
+}
 
 function buyCoaster(obj) {
     if(userMoney >= price) {
@@ -127,24 +153,32 @@ function buyStores(obj) {
     }
 }
 
-function takeLoan(amount, rate) {
+function takeLoan(amount) {
     
     userMoney += amount;
-        /*
-        allow user to create their own loan 
-        in a fieldset and the loan can be approveed
-        deduct from userMoney every tick predefined
-        in this method 
-        */
+    
 }
 /*
+
+
 
 use the inventory to find the avergage mutipler of all of the attreibutes of each items
 then update the money per tick shit 
 */
 
+loanButton.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    //add new html element and add text there with a fieldset where the user can add dollar amount to take
+
+    userLoanRate = loanRate;
+    takeLoan();
+
+});
+
 
 window.setInterval(perTickMain, 175);//in ms
+window.setInterval(determineLoanRate, 1000);
 
 
 //add mechanic to buy and sell amusements 
