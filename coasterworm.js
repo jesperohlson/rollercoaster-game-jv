@@ -1,12 +1,9 @@
-//grab html elements
-const logText = document.getElementsByClassName('guide');
-const moneyHTML = document.getElementById('user-money');
-const updatesHTML = document.getElementById('update-id');
-const guestsHTML = document.getElementById('guests');
-const statsHTML = document.getElementById('stats');
-const rideCounterHTML = document.getElementById('ride-count');
+//JS for tha wiki and jeremy song coaster game
 
-const purchaseRidesPage = document.getElementById('purchase-rides');
+//new DOM variables
+const currentInvHTML = document.getElementById('current-inventory');
+const statsHTML = document.getElementById('stat');
+const financesHTML = document.getElementById('finances');
 
 //pages (buttons)
 const mainButton = document.getElementById('main-menu');
@@ -23,9 +20,13 @@ let userMoney = 1000;
 let admissionFee = 0;
 let guests = 0;
 let rating = 100;
-let numOfRides = 0;
+
 let numOfStores = 0;
+
 let inventory = [];
+let numOfRides = inventory.length;
+
+let moneyPerSec = guests * rating;
 
 //park multiplers
 //find avg money,guest,rating multiplers and apply to the user Money 
@@ -70,36 +71,30 @@ update money, guests, rating per tick
 determine money multiplier policy 
 */
 function perTickMain() {
-    userMoney += 5;
+    userMoney += 5; //figure out equation 
     guests += 1;
-    moneyHTML.innerHTML = `Money: ${userMoney}`;
-    //use Html element creation in the literal to reduce num of HTML elements
-    guestsHTML.innerHTML = `Guests: ${guests}`;
-    rideCounterHTML.innerHTML = `Rides: ${numOfRides}`;
-    statsHTML.innerHTML = `
-        \nCurrent Park Rating: ${rating}
-    `;
+   
+    currentInvHTML.innerHTML = `
+        <h2><strong>Current</strong></h2>
+        <p><strong>Money:</strong> ${userMoney}</p>
+        <p><strong>Guests:</strong> ${guests}</p>
+    `;//update current  inventory
 
-}
+    statsHTML.innerHTML = ` 
+        <h2><strong>Park Stats</strong></h2>
+        <p><strong>Rides:</strong> ${numOfRides}</p>
+        <p><strong>Park Rating:</strong> ${rating}</p>
+    `;//update stats
 
-function onshit() {
-    purchaseRidesPage = 
-    `
-    Current Rides Available:
-    ${coasters[0]};
-    `;
-
-    logText.styles.display = "none";
-    moneyHTML.styles.display = "none";
-    guestsHTML.innerHTML = "none";
-    statsHTML.innerHTML = "none";
-}
-
-
-function updateLog() {
-    updatesHTML.innerHTML = "You need a loan to purchase your first amusement for your park SHWIKI!";
+    financesHTML.innerHTML = `
     
+        <h2><strong>Finances</strong></h2>
+        <p><strong>Money Flow:</strong> ${moneyPerSec}</p>
+        <p><strong>Debt Owned:</strong> (Insert HERE)</p>
+    
+    `
 }
+
 
 function buy(obj, price) {
     if(userMoney > price) {
@@ -142,6 +137,11 @@ window.setInterval(perTickMain, 175);//in ms
 //rideButton.addEventListener('click', onShit);
 //need to update page, update css display setting when buttons are clicked on 
 
+/*
+local storage ---------
+JSON.parse
+JSON.stringify
+key, value
+*/
 
-//learn js local storage 
-
+const dataSave = localStorage.setItem("userData", JSON.stringify(inventory));
