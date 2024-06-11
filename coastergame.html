@@ -8,26 +8,69 @@
     </head>
 
     <body>
-        <div class="header"><h1>CoasterOffice: The Official Game</h1></div>
+       
+        <div class="header">
+            <h1>CoasterOffice: The Official Game -- Wiki & JS Park</h1>
+        </div>
+       
+        <div class="container">
 
-        <div class="stats">
+            
 
-            <h2>Current</h2>
-
+           <!-- <div class="tabs">
+                <button type="button" id="main-menu">Overview</button>
+                <button type="button" id="ride-buttons">Amusements</button>  
+                <button type="button" class="finances-buttons" >Finances</button>   
+                <button type="button" class="stats-buttons">Stats</button>
+                <button type="button" class="developments-buttons">Park Developments</button>
+                <button type="button" class="staff">Hire Staff</button>
+            </div>  -->
         </div>
 
-        <div class="log">
-
-            <h2>Reports</h2>
-
-        </div>
-
-        <div class="actions">
-
-        </div>
     
+     
+
+                <div class="tabcontent" id="current-inventory">
+
+                <h2>Current</h2>
+                <p id="user-money">Money: 0</p>
+                <p id="guests">Guests: 0</p>
+                
+
+                </div>
+
+                <div class="tabcontent" id="buypage">
+
+                    <p id="purchase-rides">Coaster Rides Available</p>
+                </div>
+
+                <div class="tabcontent" id="log">
+
+                    <h2>Reports</h2>
+                    <p id="update-id"><span class="updates">Updates: JS says you need to buy a coaster!</span></p>
+
+                </div>
+
+                <div class="tabcontent" id="stat">
+                    <h2>Park Stats</h2>
+                    <p id="stats">
+                        Rides: </p>
+                    <p id="ride-count">Rides: 0</p>
+                
+                </div>
+
+                <div class="tabcontent" id="finances">
+                    <h2>Finances</h2>
+                    <p>Loans</p>
+                </div>
+
+                <div class="tabcontent" id="staff">
+                    <h2>Staff</h2>
+                    <p>Hire Staff</p>
+                </div>
+     
+
+        <script src="coasterworm.js"></script> 
     </body>
-
-    <script src="coasterworm.js"></script>
+    <footer>
 </html>
-
