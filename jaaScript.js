@@ -15,4 +15,5 @@ let appleBombers = 0;
 let appleSoldiers = 2;
 let minApples = 0;
 let successChance = 0;
+let storageSize = 60;
 const houseToApple = ["Wilkin House", "AirTime Thrills", "Random House Party", "Wiki HQ"];
