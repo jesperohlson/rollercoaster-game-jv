@@ -1,0 +1,12 @@
+* {
+    background: white;
+    font-family: sans-serif, Arial, Helvetica;
+    box-sizing: border-box;
+}
+h1 {
+    margin-left: auto;
+    margin-right: auto;
+    background: linear-gradient(180deg, orange, rgb(71, 166, 255));
+    color: black;
+    text-align: right;
+}
