@@ -87,7 +87,7 @@ determine money multiplier policy
 */
 function perTickMain() {
     //add if statement to see if rating is going down or money flow is negative 
-    userMoney += 5;
+    userMoney += parseInt("5");
     guests += 1;
 
    
@@ -120,8 +120,8 @@ if(Math.random() * (10 - 0) > 5) {
 
 if(loanRate < 0) {
     loanRate = 1.25;
-} else if (loanRate > 10) {
-    loanRate = 5;
+} else if (loanRate > 15) {
+    loanRate = loanRate-3;
 }
 
 loanRateHTML.innerHTML = `

@@ -51,7 +51,7 @@ manage the rides in the center of the page
 
 #log {
     border: 2px solid red;
-    margin-left: 75vh;
+    margin-left: 50vw;
     position: absolute;
     right: 10px;
     top: 10vh;
@@ -61,8 +61,8 @@ manage the rides in the center of the page
 #stat {
     position: absolute;
     border: 5px solid green;
-    margin-left: 50vh;
-    top: 55vh;
+    margin-left: 50vw;
+    top:75vh;
     padding: 25px 125px;
     right: 10px;
 }
@@ -71,7 +71,7 @@ manage the rides in the center of the page
     border: 5px solid rgb(98, 58, 58);
     position: absolute;
     right: 10px;
-    top: 29vh;
+    top: 35vh;
     padding: 25px 125px;
     margin-left: 250px;
     
@@ -82,12 +82,13 @@ manage the rides in the center of the page
 }
 
 #staff {
+    position: absolute;
     border: 5px solid blue;
-    padding-left: 20vh;
-    padding-right: 70vh;
+    padding-left: 20vw;
+    padding-right: 25px 125px;
     top: 65vh;
-    margin-left: 75vh;
-    padding: 10vh 50vh;
+    margin-left: 15vw;
+    text-align: left;
 }
 
 footer {
