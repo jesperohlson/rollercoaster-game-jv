@@ -4,6 +4,7 @@ const currentInvHTML = document.getElementById('current-inventory');
 const statsHTML = document.getElementById('stat');
 const financesHTML = document.getElementById('finances');
 const loanRateHTML = document.getElementById('loan-rate');
+const moneyText = document.getElementById('user-money');
 
 //pages (buttons)
 const mainButton = document.getElementById('main-menu');
@@ -21,7 +22,7 @@ let userMoney = JSON.parse(localStorage.getItem("userMoney")) || 1000;
 let admissionFee = 0;
 let guests = 0;
 let rating = 100;
-let loanRate = 0;
+let loanRate = 1.5;
 let userLoanRate = 0;
 let debt = 0;
 
@@ -34,7 +35,7 @@ let numOfRides = inventory.length;
 
 
 let guestsPerSec = numOfRides * rating;
-let moneyPerSec = guests * admissionFee + numOfStores * storeMultiplier;
+let moneyPerSec = guests * admissionFee + numOfStores * storeMultiplier - debt;
 //give each store a money per minute attribute and use it for above two equations
 
 //park multiplers
@@ -78,6 +79,7 @@ const stores = [
 
 ]
 
+
 /*
 update money, guests, rating per tick 
 
@@ -85,7 +87,7 @@ determine money multiplier policy
 */
 function perTickMain() {
     //add if statement to see if rating is going down or money flow is negative 
-    userMoney += 5;  //use Per Sec variables
+    userMoney += 5;
     guests += 1;
 
    
@@ -157,14 +159,10 @@ function buyStores(obj) {
 
 //allow user to take a loan, breaks inventory money display
 function takeLoan() {
-   
-    const thisLoanRate = loanRate;
-    
-    userMoney = userMoney + loanAmount;
-    
-
+    const thisLoanRate = loanRate;//specific percentage
+    userMoney += loanAmount;
     debt = loanAmount * thisLoanRate;
-   
+    moneyText.textContent = userMoney;
 }
 /*
 use the inventory to find the avergage mutipler of all of the attreibutes of each items
@@ -175,13 +173,11 @@ loanButton.addEventListener('click', (e) => {
     e.preventDefault();
 
     takeLoan();
-
-
 });
 
 
-window.setInterval(perTickMain, 175);//in ms
-window.setInterval(determineLoanRate, 1000);//changes loan rate every second
+window.setInterval(perTickMain, 250);//in ms
+window.setInterval(determineLoanRate, 1738);//changes loan rate every second
 
 
 //add mechanic to buy and sell amusements 
