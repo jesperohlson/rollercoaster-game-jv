@@ -177,7 +177,7 @@ loanButton.addEventListener('click', (e) => {
 
 
 window.setInterval(perTickMain, 250);//in ms
-window.setInterval(determineLoanRate, 1738);//changes loan rate every second
+window.setInterval(determineLoanRate, 5000);//changes loan rate every second
 
 
 //add mechanic to buy and sell amusements 
