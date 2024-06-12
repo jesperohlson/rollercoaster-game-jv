@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Jenks Apple Association Online Game</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="jaaStyle.css"/>
+    </head>
+
+    <body>
+        
+        <!--
+        
+        collect apples -> transfer to backpacks -> transfer to cars -> transfer to trash bags -> store trash bags or coolers in forests or sheds -> retrieve apples and count losses
+
+            (create system where you can transfer apples from one container to another)
+            (have different places where you can store the apples, where one location has a higher chance of losing apples than others)
+
+            collect apples -> 1st/2nd lunches -> count number of people helping -> collect those apples to the extent that the backpacks can store them -> recruit people and maybe other schools to collect apples for you
+
+            create system to determine the number of apples that can be collected and maximum storage that can held at the school 
+
+            collect apples on weekdays -> apple houses on weekends
+
+            (create timing system or minimum apples needed to go on appling campaign)
+
+            if collecting too many apples -> get caught and reset apple count with a permanent nerf
+
+            appling houses goes from simple runs to more complex runs (world war wilkin)
+        -->
+
+        <div class="container">
+
+            <div class="header">
+                <h1>Jenks Apple Association: The Simulator</h1>
+            </div>
+
+       
+            <div class="apple-inventory">
+                <h2><strong>Apples</strong></h2>
+                <p class="apple-info"><strong>Apple Count:</strong> 0</p>
+                <p class="apple-info"><strong>Workers:</strong> 0</p>
+                <p class="daily-apples"><strong>Daily Collection:</strong> 0 Apples</p>
+                <p class="daily-loss"><strong>Daily Loss:</strong> 0 Apples</p>
+            </div>
+  
+
+        <fieldset>
+            <div class="transfer">
+                <h2><strong>Transfer & Store Apples</strong></h2>
+                <p><strong class="transfer-info">Apple Transfer Roadmap: backpacks ==> trashbags ==> storage</strong></p>
+                <p><strong>Apples in Backpacks:</strong> 0/60</p>
+                <p><strong>Apples in Trashbags:</strong> 0/200</p>
+                <p><strong>Number of Trashbags:</strong> 0</p>
+                <p><strong>Trashbags in Forests: </strong> 0</p>
+                <p><strong>Trashbags in Sheds</strong> 0</p>
+                <p><strong>Put Apples into Trashbags:</strong></p>
+                <button class="transfer-to-trashbag">Transfer (Backpack to Trashbag)</button>
+                <p><strong>Trashbag Storage Options:</strong></p>
+                <button class="store-to-forest">Transfer to the Forest</button>
+                <button class="store-to-shed">Transfer to a Shed</button>
+                <p><strong>CAUTION:</strong> Apples will be lost when stored, in the forest more apples will be lost, but more apples can be stored, in sheds less apples will be lost</p>
+                <p class="transfer-warning"></p>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="appling">
+                <h2>Apple Command</h2>
+                <p><strong>Minimum Apples Needed For Campaign:</strong> 0</p>
+                <p><strong>House to Apple:</strong> (Insert HERE)</p>
+                <p><strong>Avaiable Apple Soliders</strong> 0</p>
+                <p><strong>Avaiable Apple Bombers</strong> 0</p>
+                <p><strong>Success Chance: </strong> 0%</p>
+                <button>Conduct Appling Campaign</button>
+            </div>
+        </fieldset>
+            
+
+
+
+
+
+
+
+
+
+        </div>
+
+        
+        <script href="./jaaScript.js"></script>
+    </body>
+
+
+    <footer>
+        <p>This game is based on a true story, read the lore <a href="https://en.wikipedia.org/wiki/User:Dkapples/sandbox">here</a> RIP JAA (11/2021-4/2022)</p>
+    </footer>
+</html>
