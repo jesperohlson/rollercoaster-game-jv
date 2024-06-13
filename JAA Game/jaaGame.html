@@ -36,12 +36,12 @@
             </div>
 
        
-            <div class="apple-inventory">
+            <div id="apple-inventory">
                 <h2><strong>Apples</strong></h2>
-                <p class="apple-info"><strong>Apple Count:</strong> 0</p>
-                <p class="apple-info"><strong>Workers:</strong> 0</p>
-                <p class="daily-apples"><strong>Daily Collection:</strong> 0 Apples</p>
-                <p class="daily-loss"><strong>Daily Loss:</strong> 0 Apples</p>
+                <p id="apple-info"><strong>Apple Count:</strong> 0</p>
+                <p id="apple-workers"><strong>Workers:</strong> 2</p>
+                <p id="daily-apples"><strong>Daily Collection:</strong> 4 Apples</p>
+                <p id="daily-loss"><strong>Daily Loss:</strong> 0 Apples</p>
             </div>
   
 
@@ -49,13 +49,17 @@
             <div class="transfer">
                 <h2><strong>Transfer & Store Apples</strong></h2>
                 <p><strong class="transfer-info">Apple Transfer Roadmap: backpacks ==> trashbags ==> storage</strong></p>
-                <p><strong>Apples in Backpacks:</strong> 0/60</p>
-                <p><strong>Apples in Trashbags:</strong> 0/200</p>
-                <p><strong>Number of Trashbags:</strong> 0</p>
-                <p><strong>Trashbags in Forests: </strong> 0</p>
-                <p><strong>Trashbags in Sheds</strong> 0</p>
+               
+                <div id="transfer-text">
+                    <p><strong>Apples in Backpacks:</strong> 0/60</p>
+                    <p><strong>Apples in Trashbags:</strong> 0/200</p>
+                    <p><strong>Number of Trashbags:</strong> 0</p>
+                    <p><strong>Trashbags in Forests: </strong> 0</p>
+                    <p><strong>Trashbags in Sheds</strong> 0</p>
+                </div>
+
                 <p><strong>Put Apples into Trashbags:</strong></p>
-                <button class="transfer-to-trashbag">Transfer (Backpack to Trashbag)</button>
+                <button id="transfer-to-trashbag">Transfer (Backpack to Trashbag)</button>
                 <p><strong>Trashbag Storage Options:</strong></p>
                 <button class="store-to-forest">Transfer to the Forest</button>
                 <button class="store-to-shed">Transfer to a Shed</button>
@@ -88,7 +92,7 @@
         </div>
 
         
-        <script href="jaaScript.js"></script>
+        <script src="jaaScript.js"></script>
     </body>
 
 
