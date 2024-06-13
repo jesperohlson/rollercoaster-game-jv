@@ -26,21 +26,24 @@ h1 {
     font-size: medium;
 }
 
-
-
-/* 
-current inventory is fine where it is
-put staff below the current inventory 
-on the right top put the reports 
-below the reports put the finances
-manage the rides in the center of the page 
-*/
-
-
 #current-inventory {
     display: inline-block;
+    position: relative;
 }
 
+#user-money {
+    display: inline-block;
+    margin-right: 10px; /* Space between the paragraph and the button */
+}
+
+.money-button {
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    padding: 5px;
+    background-color: yellow;
+    border: 1px solid black;
+}
 
 #buypage {
     border: 4px dashed black;
@@ -49,7 +52,6 @@ manage the rides in the center of the page
     height: 200px;
     margin-left: 3vh;
     margin-right: 15vh;
-    
 }
 
 #log {
@@ -65,7 +67,7 @@ manage the rides in the center of the page
     position: absolute;
     border: 5px solid green;
     margin-left: 50vw;
-    top:75vh;
+    top: 75vh;
     padding: 25px 125px;
     right: 10px;
 }
@@ -77,7 +79,6 @@ manage the rides in the center of the page
     top: 35vh;
     padding: 25px 125px;
     margin-left: 250px;
-    
 }
 
 #financial > button {
@@ -102,7 +103,6 @@ footer {
 
 h2 {
     color: black;
-
 }
 
 

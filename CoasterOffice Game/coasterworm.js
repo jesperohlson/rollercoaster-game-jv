@@ -25,6 +25,9 @@ let rating = 100;
 let loanRate = 1.5;
 let userLoanRate = 0;
 let debt = 0;
+let moneyRate = 0;
+let guestRate = 0;
+let guestLeave = 0;
 
 //store variables
 let numOfStores = 0;
@@ -87,8 +90,9 @@ determine money multiplier policy
 */
 function perTickMain() {
     //add if statement to see if rating is going down or money flow is negative 
-    userMoney += parseInt("5");
-    guests += 1;
+    userMoney += parseInt(moneyRate);
+    guests += guestRate;
+    guests -= guestLeave;
 
    
     currentInvHTML.innerHTML = `

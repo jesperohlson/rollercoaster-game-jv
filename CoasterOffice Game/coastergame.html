@@ -1,80 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Coasteroffice Game</title>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="./coastergame.css"/>
-    </head>
+<head>
+    <title>Coasteroffice Game</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./coastergame.css"/>
+</head>
+<body>
+    <div class="header">
+        <h1>CoasterOffice: The Official Game -- Wiki & JS Park</h1>
+    </div>
+    
+    <div class="tabcontent" id="current-inventory">
+        <h2><strong>Current Inventory</strong></h2>
+        <p id="user-money"><strong>Money:</strong> 0</p>
+        
+        <p id="guests"><strong>Guests:</strong> 0</p>
+    </div>
 
-    <body>
-       
-        <div class="header">
-            <h1>CoasterOffice: The Official Game -- Wiki & JS Park</h1>
+    <div class="tabcontent" id="buypage">
+        <p id="purchase-rides">Attractions Available</p>
+    </div>
+
+    <div class="tabcontent" id="log">
+        <h2>Reports</h2>
+        <p id="update-id"><span class="updates">Updates: JS says you need to buy a coaster!</span></p>
+        <p>Wiki says you need to take a loan, find a good rate!</p>
+    </div>
+
+    <div class="tabcontent" id="stat">
+        <h2><strong>Park Stats</strong></h2>
+        <p id="num-of-rides"><strong>Rides:</strong></p>
+        <p id="park-rating"><strong>Park Rating</strong></p>
+    </div>
+
+    <div class="tabcontent" id="financial">
+        <div id="finances">
+            <h2>Finances</h2>
+            <p>Money Flow: </p>
+            <p>Debt owned: </p>
         </div>
-       
-        <!-- <div class="buttons-container">
+        <p id="loan-rate"><strong>Loan Rate: </strong>2.25%</p>
+        Enter Amount: <input type="number" id="loan-amount" for="loan-button" max="1000000" min="0" required></input>
+        <button type="button" id="loan-button">Take Loan</button>
+    </div>
 
-           <div class="tabs">
-                <button type="button" id="main-menu">Overview</button>
-                <button type="button" id="ride-buttons">Amusements</button>  
-                <button type="button" class="finances-buttons" >Finances</button>   
-                <button type="button" class="stats-buttons">Stats</button>
-                <button type="button" class="developments-buttons">Park Developments</button>
-                <button type="button" class="staff">Hire Staff</button>
-            </div>  
-        </div> -->
+    <div class="tabcontent" id="staff">
+        <h2>Staff</h2>
+        <p>Hire Staff</p>
+    </div>
+    <button class="money-button">Add Money</button>
 
-                <div class="tabcontent" id="current-inventory">
-                    <h2><strong>Current Inventory</strong><h2>
-                    <p id="user-money"><strong>Money:</strong> 0</p>
-                    <p id="guests"><strong>Guests:</strong> 0</p>
-                </div>
-
-                <div class="tabcontent" id="buypage">
-                    <p id="purchase-rides">Attractions Available</p>
-                    
-                </div>
-
-                <div class="tabcontent" id="log">
-
-                    <h2>Reports</h2>
-                    <p id="update-id"><span class="updates">Updates: JS says you need to buy a coaster!</span></p>
-                    <p>Wiki says you need to take a loan, find a good rate!</p>
-
-                </div>
-
-                <div class="tabcontent" id="stat">
-                    
-                    <h2><strong>Park Stats</strong></h2>
-                    <p id="num-of-rides"><strong>Rides:</strong></p>
-                    <p id="park-rating"><strong>Park Rating</strong></p>
-                
-                </div>
-
-                <div class="tabcontent" id="financial">
-                   
-                    <div id="finances">
-                    <h2>Finances</h2>
-                    <p>Money Flow: </p>
-                    <p>Debt owned: </p>
-                    </div>
-
-                   
-                    <p id="loan-rate"><strong>Loan Rate: </strong>2.25%</p>
-
-                    Enter Amount: <input type="number"  id="loan-amount" for="loan-button" max="1000000" min="0" required></input>
-                    <button type="button" id="loan-button">Take Loan</button>
-                    
-                </div>
-
-                <div class="tabcontent" id="staff">
-                    <h2>Staff</h2>
-                    <p>Hire Staff</p>
-                </div>
-     
-
-        <script src="coasterworm.js"></script> 
-    </body>
-    <footer>
+    <script src="coasterworm.js"></script> 
+</body>
+<footer>
 </html>
