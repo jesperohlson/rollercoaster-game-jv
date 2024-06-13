@@ -1,0 +1,24 @@
+* {
+    box-sizing: border-box;
+}
+
+.header {
+    color: maroon;
+    text-align: center;
+}
+
+#apple-inventory {
+   font-size: large; 
+}
+
+#transfer {
+    text-align: right;
+}
+
+#apple-inventory, #transfer {
+    display: inline-block;
+}
+
+#appling {
+    background: blue;
+}
