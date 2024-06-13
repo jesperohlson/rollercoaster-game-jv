@@ -8,6 +8,9 @@ const appleRateLossHTML = document.getElementById('daily-loss')//apple dalily lo
 
 //middle section 
 const transferText = document.getElementById('transfer-text');
+const transferWarningText = document.getElementById('transfer-warning');
+const moveBagWarningText = document.getElementById('move-bag-warning')
+const bagpackFullWarningText = document.getElementById('bag-full-warning')
 
 //bottom section 
 
@@ -19,13 +22,13 @@ const transToBagsBtn = document.getElementById('transfer-to-trashbag');
 
 //variables
 let apples = 0;
-let totalApples = 0;
+let trashbags = 0;
+let totalApples = apples + trashbags * 200;
 let workers = 2;
 let dailyCollection = workers * 2;
 let dailyLoss = 0;
 let backpackApples = 0;
 let trashbagApples = 0;
-let trashbags = 0;
 let forestBags = 0;
 let shedBags = 0;
 let appleBombers = 1;
@@ -34,6 +37,7 @@ let minApples = 0;
 let successChance = 0;
 let backPackstorageSize = 60;
 let trashBagStorageSize = 200;
+let maxTrashbags = 2;
 
 //houses to apple
 const houseToApple = [
@@ -61,10 +65,12 @@ function ticker() {
     if(apples < backPackstorageSize) {
     apples += dailyCollection;
     backpackApples = apples;
+    } else {
+        bagpackFullWarningText.innerText = "Pierre's Backpack is filled to the brim with apples!";
     }
     apples -= dailyLoss;
 
-    totalApples += dailyCollection;
+   // totalApples += dailyCollection;
     //update HTML elements
     updateInventory();
     updateTransfer();
@@ -80,7 +86,8 @@ function textTicker() {
 function updateInventory() {
     inventory.innerHTML = `
         <h2><strong>Apples</strong></h2>
-        <p class="apple-info"><strong>Apple Count:</strong> ${totalApples}</p>
+        <p class="apple-info"><strong>Current Apple Count:</strong> ${apples}</p>
+        <p id="total-apples"><strong>Total Apples:</strong> ${totalApples}</p>
         <p id="apple-workers"><strong>Workers:</strong> ${workers}</p>
         <p class="daily-apples"><strong>Daily Collection:</strong> ${dailyCollection} Apples</p>
         <p class="daily-loss"><strong>Daily Loss:</strong> ${dailyLoss} Apples</p>
@@ -92,33 +99,46 @@ function updateTransfer() {
     transferText.innerHTML = `
         <p><strong>Apples in Backpacks:</strong> ${backpackApples}/60</p>
         <p><strong>Apples in Trashbags:</strong> ${trashbagApples}/200</p>
-        <p><strong>Number of Trashbags:</strong> ${trashbags}</p>
-        <p><strong>Trashbags in Forests: </strong> 0</p>
-        <p><strong>Trashbags in Sheds</strong> 0</p>
+        <p><strong>Number of Trashbags:</strong> ${trashbags}/2</p>
+        <p><strong>Trashbags in Forests: </strong> ${forestBags}</p>
+        <p><strong>Trashbags in Sheds</strong> ${shedBags}</p>
     `;
 }
 
 function transferToBag() {
     //take apples from the backpack number 
     //put backpack apples into trashbag 
-    if(trashbagApples < trashBagStorageSize) {
-    trashbagApples += backpackApples;
-    apples -= backpackApples;
-    }
+    if(backpackApples >= 0) {
 
-    if(trashbagApples >= trashBagStorageSize) {
-        trashbags++;
-        trashbagApples -= 200;
-    }
+        if(trashbagApples < trashBagStorageSize) {
+        trashbagApples += backpackApples;
+        apples -= backpackApples;
+        }
+
+        if(trashbagApples >= trashBagStorageSize) {
+            if(trashbags < maxTrashbags) {
+            trashbags++;
+            trashbagApples -= 200;
+            } else {
+                moveBagWarningText.innerText = "There is not enough room for another trashbag, move bags offsite!";
+            }
+        } 
+    } 
 }
-
 //transfer apples from backpacks to trashbags
 transToBagsBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    transferToBag();
+    transferWarningText.innerText = "";
+
+    if(backpackApples >= 0 || backpackApples >= '0') {
+        transferToBag();
+        transferWarningText.innerText = "Apples have been moved..."
+        
+    } else {
+        transferWarningText.innerText = "There are not enough apples to transfer! Wait for backpack apples to replenish.";
+    }
 });
 
-window.setInterval(ticker, 100);//1sec tick 
-window.setInterval(textTicker, 1);
+window.setInterval(ticker, 10);//1sec tick 
 
 

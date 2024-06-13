@@ -10,10 +10,7 @@
     <body>
         
         <!--
-        
-        collect apples -> transfer to backpacks -> transfer to cars -> transfer to trash bags -> store trash bags or coolers in forests or sheds -> retrieve apples and count losses
 
-            (create system where you can transfer apples from one container to another)
             (have different places where you can store the apples, where one location has a higher chance of losing apples than others)
 
             collect apples -> 1st/2nd lunches -> count number of people helping -> collect those apples to the extent that the backpacks can store them -> recruit people and maybe other schools to collect apples for you
@@ -38,7 +35,8 @@
        
             <div id="apple-inventory">
                 <h2><strong>Apples</strong></h2>
-                <p id="apple-info"><strong>Apple Count:</strong> 0</p>
+                <p id="apple-info"><strong>Current Apple Count:</strong> 0</p>
+                <p id="total-apples"><strong>Total Apples:</strong> 0</p>
                 <p id="apple-workers"><strong>Workers:</strong> 2</p>
                 <p id="daily-apples"><strong>Daily Collection:</strong> 4 Apples</p>
                 <p id="daily-loss"><strong>Daily Loss:</strong> 0 Apples</p>
@@ -52,19 +50,22 @@
                
                 <div id="transfer-text">
                     <p><strong>Apples in Backpacks:</strong> 0/60</p>
+                    <p id="bag-full-warning"></p>
                     <p><strong>Apples in Trashbags:</strong> 0/200</p>
-                    <p><strong>Number of Trashbags:</strong> 0</p>
+                    <p><strong>Number of Trashbags:</strong> 0/2</p>
+                    <p id="move-bag-warning"></p>
                     <p><strong>Trashbags in Forests: </strong> 0</p>
                     <p><strong>Trashbags in Sheds</strong> 0</p>
                 </div>
 
                 <p><strong>Put Apples into Trashbags:</strong></p>
                 <button id="transfer-to-trashbag">Transfer (Backpack to Trashbag)</button>
+                <p id="transfer-warning"></p>
                 <p><strong>Trashbag Storage Options:</strong></p>
                 <button class="store-to-forest">Transfer to the Forest</button>
                 <button class="store-to-shed">Transfer to a Shed</button>
+                <p id="apple-loss-warning"></p>
                 <p><strong>CAUTION:</strong> Apples will be lost when stored, in the forest more apples will be lost, but more apples can be stored, in sheds less apples will be lost</p>
-                <p class="transfer-warning"></p>
             </div>
        
 

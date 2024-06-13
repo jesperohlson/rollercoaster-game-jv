@@ -2,23 +2,11 @@
     box-sizing: border-box;
 }
 
-.header {
-    color: maroon;
+#transfer-warning {
+    color: red;
+}
+
+
+footer {
     text-align: center;
-}
-
-#apple-inventory {
-   font-size: large; 
-}
-
-#transfer {
-    text-align: right;
-}
-
-#apple-inventory, #transfer {
-    display: inline-block;
-}
-
-#appling {
-    background: blue;
 }
