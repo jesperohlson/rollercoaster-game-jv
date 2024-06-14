@@ -32,6 +32,7 @@
                 <h1>Jenks Apple Association: The Simulator</h1>
             </div>
 
+            <p id="scenario"></p>
        
             <div id="apple-inventory">
                 <h2><strong>Apples</strong></h2>
@@ -45,8 +46,14 @@
 
       
             <div id="transfer">
-                <h2><strong>Transfer & Store Apples</strong></h2>
-                <p><strong class="transfer-info">Apple Transfer Roadmap: backpacks ==> trashbags ==> storage</strong></p>
+                <div id="transfer-info">
+                    
+                    <h2><strong>Transfer & Store Apples</strong></h2>
+                    <p><strong>Apple Transfer Roadmap:</strong></p>
+                    <p>Apples are automatically stored in backpacks, apples must be then transfered into trashbags</p>
+                    <p>There are two storage options available: Forests or Sheds.</p>
+                    <p>You will lose on average 30 apples in the forest and 8 in the sheds</p>
+                </div>
                
                 <div id="transfer-text">
                     <p><strong>Apples in Backpacks:</strong> 0/60</p>
@@ -82,14 +89,15 @@
 
             <div id="market">
             <div id="black-market">
-                <h2>Black Market: Sell Apples for Cash</h2>
-                <p  id="market-rate"><strong>Apple Rate:</strong> $0.00 per apple</p>
+                <h2>Black Market: Export Apples for Cash</h2>
+                <p  id="market-rate"><strong>Global Apple Rate:</strong> $0.00 per apple</p>
             </div>
+                <p>(Sell unstored trashbags)</p>
            
-                <button type="button" id="sell-1">Sell 1 Apple</button>
-                <button type="button" id="sell-10">Sell 10 Apples</button>
-                <button type="button" id="sell-25">Sell 25 Apples</button>
-                <button type="button" id="sell-100">Sell 100 Apples</button>
+                <button type="button" id="sell-1">Sell 1 Trashbag</button>
+                <button type="button" id="sell-10">Sell 10 Trashbags</button>
+                <button type="button" id="sell-25">Sell 25 Trashbags</button>
+                <button type="button" id="sell-100">Sell 100 Trashbags</button>
             </div>
 
 

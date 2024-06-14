@@ -3,9 +3,7 @@
     
 }
 
-body {
-    background: linear-gradient(270deg, red 0%, white 70%)
-}
+
 
 #transfer-warning {
     color: red;
@@ -25,3 +23,4 @@ h1 {
 
     color: black;
 }
+
