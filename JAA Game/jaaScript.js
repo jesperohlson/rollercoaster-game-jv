@@ -7,26 +7,32 @@ const appleRateHTML = document.getElementById('daily-apples');//apple daily gain
 const appleRateLossHTML = document.getElementById('daily-loss')//apple dalily loss
 
 //middle section 
-const transferText = document.getElementById('transfer-text');
-const transferWarningText = document.getElementById('transfer-warning');
-const moveBagWarningText = document.getElementById('move-bag-warning')
-const bagpackFullWarningText = document.getElementById('bag-full-warning')
+const transferText = document.getElementById('transfer-text');//text for mid section of page
+const transferWarningText = document.getElementById('transfer-warning');//warning if transfer does not complete
+const moveBagWarningText = document.getElementById('move-bag-warning')//warning if moving apples does not work
+const bagpackFullWarningText = document.getElementById('bag-full-warning')//warning if bag is full 
 
 //bottom section 
 
 
+//market
+const rateText = document.getElementById('market-rate');//number for apple cost
+const blackMarketText = document.getElementById('black-market');//entire section 
+
 //buttons 
 const transToBagsBtn = document.getElementById('transfer-to-trashbag');
-
+const moveTrashbagsToForest = document.getElementById('store-to-forest');
+const moveTrashbagsToShed = document.getElementById('store-to-shed');
 
 
 //variables
 let apples = 0;
+let money = 0;
 let trashbags = 0;
-let totalApples = apples + trashbags * 200;
+
 let workers = 2;
 let dailyCollection = workers * 2;
-let dailyLoss = 0;
+
 let backpackApples = 0;
 let trashbagApples = 0;
 let forestBags = 0;
@@ -38,8 +44,11 @@ let successChance = 0;
 let backPackstorageSize = 60;
 let trashBagStorageSize = 200;
 let maxTrashbags = 2;
+let sellAppleRate = appleBlackMarketRate();
+let dailyLoss = forestBags * 30 + shedBags * 8;
+let totalApples = apples + trashbags * 200;
 
-//houses to apple
+
 const houseToApple = [
     {
         name: "Wilkin House",
@@ -74,11 +83,12 @@ function ticker() {
     //update HTML elements
     updateInventory();
     updateTransfer();
+    
+    
 }
 
 function textTicker() {
-    updateInventory();
-    updateTransfer();
+    updateBlackMarket();
 }
 
 
@@ -105,6 +115,17 @@ function updateTransfer() {
     `;
 }
 
+function updateBlackMarket() {
+    sellAppleRate = appleBlackMarketRate().toFixed(2);
+    blackMarketText.innerHTML = `
+    
+    <h2>Black Market: Sell Apples for Cash</h2>
+    <p><strong>Apple Rate:</strong> $${sellAppleRate} per apple</p>
+    `;
+}
+
+
+//takes apples from backpacks into the trashbags
 function transferToBag() {
     //take apples from the backpack number 
     //put backpack apples into trashbag 
@@ -124,7 +145,24 @@ function transferToBag() {
             }
         } 
     } 
-}
+}//transferToBag
+
+//takes apples from trashbags into either the forest or sheds 
+function moveTrashbags(destination) {
+    if(destination === "forest") {
+        forestBags++;
+        trashbags--;
+    } else if(destination === "shed") {
+        shedBags++;
+        trashbags--;
+    }
+
+}//moveTrashbags
+
+
+
+
+
 //transfer apples from backpacks to trashbags
 transToBagsBtn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -132,13 +170,50 @@ transToBagsBtn.addEventListener('click', (e) => {
 
     if(backpackApples >= 0 || backpackApples >= '0') {
         transferToBag();
-        transferWarningText.innerText = "Apples have been moved..."
         
     } else {
-        transferWarningText.innerText = "There are not enough apples to transfer! Wait for backpack apples to replenish.";
+        transferWarningText.innerText = "There are not enough apples to transfer! Wait for backpack apples to be replenished.";
     }
 });
+//move appples to frest button
+moveTrashbagsToForest.addEventListener('click', (e) => {
+    e.preventDefault();
+    
+    if(trashbags > 0) {
+        moveTrashbags("forest");
+   
+    } else {
+        transferWarningText.innerText = "There are no trashbags to move!"
+    }
+        
+    
+});
+//move apples to shed button
+moveTrashbagsToShed.addEventListener('click', (e) => {
+    e.preventDefault();
+  
+    if(trashbags > 0) {
+        moveTrashbags("shed");
+      
+    } else {
+        transferWarningText.innerText = "There are no trashbags to move!"
+    }
+        
+    
+});
 
-window.setInterval(ticker, 10);//1sec tick 
 
+
+
+
+
+
+//black market apples
+function appleBlackMarketRate() {
+    return Math.random() * (1.5-0.2);
+}   
+
+
+window.setInterval(ticker, 25);//1sec tick 
+window.setInterval(textTicker, 10000);
 

@@ -1,12 +1,27 @@
 * {
     box-sizing: border-box;
+    
+}
+
+body {
+    background: linear-gradient(270deg, red 0%, white 70%)
 }
 
 #transfer-warning {
     color: red;
+    
 }
 
+h2 {
+    
+    color: rgb(190, 1, 1);
+}
 
-footer {
-    text-align: center;
+button {
+    background: orange;
+}
+
+h1 {
+
+    color: black;
 }
