@@ -19,11 +19,11 @@
 
             collect apples on weekdays -> apple houses on weekends
 
-            (create timing system or minimum apples needed to go on appling campaign)
+            (create timing system)
 
             if collecting too many apples -> get caught and reset apple count with a permanent nerf
 
-            appling houses goes from simple runs to more complex runs (world war wilkin)
+     
         -->
 
         <div class="container">
@@ -43,6 +43,11 @@
                 <p id="daily-apples"><strong>Daily Collection:</strong> 4 Apples</p>
                 <p id="daily-loss"><strong>Daily Loss:</strong> 0 Apples</p>
             </div>
+
+            <p id="bribe-worker-cost"><strong>Cost to "Recruit" Another Worker: </strong> 0</p>
+            <button id="bribe-worker">Bribe Them</button>
+            <p class="warning" id="bribe-worker-warning"></p>
+            
   
 
       
@@ -78,10 +83,13 @@
        
 
             <div id="appling">
-                <h2><strong>Apple Command</strong></h2>
+                <h2><strong>Apple Strategic Operations</strong></h2>
                 <p><strong>Minimum Apples Needed For Campaign:</strong> 0</p>
                 <p><strong>House to Apple:</strong> (Insert HERE)</p>
                 <p><strong>Avaiable Apple Soliders</strong> 0</p>
+                <p id="bribe-soldier-cost">Cost to "Persuade" Solider Into Joining Your Mission</p>
+                <button id="bribe-soldier">Bribe (Again)</button>
+                <p class="warning" id="bribe-solder-warning"></p>
                 <p><strong>Avaiable Apple Bombers</strong> 0</p>
                 <p><strong>Success Chance: </strong> 0%</p>
                 <p><strong>Recover Apples:</strong></p>
@@ -106,19 +114,6 @@
                 <button type="button" id="sell-25">Sell 25 Trashbags</button>
                 <button type="button" id="sell-100">Sell 100 Trashbags</button>
             </div>
-
-
-           
-      
-            
-
-
-
-
-
-
-
-
 
         </div>
 
