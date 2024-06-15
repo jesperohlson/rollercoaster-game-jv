@@ -1,3 +1,7 @@
+//TODO work on combat shit and total apple and total collection variables 
+//figure out local storage shit too 
+
+
 //DOM variables
 //top section 
 const inventory = document.getElementById('apple-inventory');//top section of the page 
@@ -20,6 +24,13 @@ const transferInformaton = document.getElementById('transfer-info');//transfer i
 //market
 const rateText = document.getElementById('market-rate');//number for apple cost
 const blackMarketText = document.getElementById('black-market');//entire section 
+const marketWarning = document.getElementById('market-warning');//warning text for market 
+//market buttons 
+const sellOne = document.getElementById('sell-1');
+const sell10 = document.getElementById('sell-10');
+const sell25 = document.getElementById('sell-25');
+const sell100 = document.getElementById('sell-100');
+
 
 //buttons 
 const transToBagsBtn = document.getElementById('transfer-to-trashbag');//move apples from backpack to trashbags
@@ -53,28 +64,42 @@ let totalApples = apples + trashbags * 200;
 let maxShedBags = 6;
 
 
+
 const houseToApple = [
     {
-        name: "Wilkin House",
-        minApples: 500
-    }, 
-    {
-        name: "AirTime Thrills",
-        minApples: 250
-
-    }, 
-    {
-        name: "Random House Party",
-        minApples: 25
+        name: "Random Party",
+        minApples: 25, 
+        soldiers: 1,
+        bombers: 0
     },
     {
-       name:  "Wiki HQ",
-       minApples: 2000
+        name: "Winter Party",
+        minApples: 50, 
+        soldiers: 2, 
+        bombers: 0
+    },
+    {
+        name: "Super Bowl Party", 
+        minApples:  100, 
+        soldiers: 6, 
+        bombers: 2,
+    },
+    {
+        name: "The Milkin Compound", 
+        minApples: 200, 
+        solders: 6, 
+        bombers: 3
+    },
+    {
+        name: "QL's House",
+        minApples: 10, 
+        soldiers: 1, 
+        bombers: 1
     }
 ];
 
 
-
+//updates the text at the very top of the page based on how many workers ther are 
 function updateScenario() {
     if(workers === 2) {
         scenario.innerText = "You and your friend start stealing apples from your school cafeteria...";
@@ -87,7 +112,7 @@ function updateScenario() {
     }
 }
 
-//main ticker 
+//main ticker ----------  move apple changes to a new function 
 function ticker() {
     if(apples < backPackstorageSize) {
     apples += dailyCollection;
@@ -104,7 +129,7 @@ function ticker() {
     
     
 }
-
+//updates text for specific portions
 function textTicker() {
     updateBlackMarket();
     updateScenario();
@@ -117,6 +142,7 @@ function updateInventory() {
         <h2><strong>Apples</strong></h2>
         <p class="apple-info"><strong>Current Apple Count:</strong> ${apples}</p>
         <p id="total-apples"><strong>Total Apples:</strong> ${totalApples}</p>
+         <p id="JAA-fund"><strong>Laundered Money:</strong> $${money.toFixed(2)}</p>
         <p id="apple-workers"><strong>Workers:</strong> ${workers}</p>
         <p class="daily-apples"><strong>Daily Collection:</strong> ${dailyCollection} Apples</p>
         <p class="daily-loss"><strong>Daily Loss:</strong> ${dailyLoss} Apples</p>
@@ -134,12 +160,14 @@ function updateTransfer() {
     `;
 }
 
+//updates text and prices for the black market section 
 function updateBlackMarket() {
     sellAppleRate = appleBlackMarketRate().toFixed(2);
     blackMarketText.innerHTML = `
     
     <h2>Black Market: Export Apples for Cash</h2>
     <p><strong>Global Apple Rate:</strong> $${sellAppleRate} per apple</p>
+
     `;
 }
 
@@ -160,7 +188,7 @@ function transferToBag() {
             trashbags++;
             trashbagApples -= 200;
             } else {
-                transferWarningText.innerText = "There is not enough room for another trashbag, move bags offsite!";
+                transferWarningText.innerText = "There is not enough room to tie up another trash bag, move the other bags offsite!";
             }
         } 
     } 
@@ -183,8 +211,7 @@ function moveTrashbags(destination) {
 }//moveTrashbags
 
 
-
-
+//~~~~~~~~~~~~~~~~~~~~~BUTTONS~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //transfer apples from backpacks to trashbags
 transToBagsBtn.addEventListener('click', (e) => {
@@ -224,12 +251,34 @@ moveTrashbagsToShed.addEventListener('click', (e) => {
         
     
 });
+//sell one apple button
+sellOne.addEventListener('click', (e) => {
 
+        e.preventDefault();
+        sellApples(1);
 
+});
+//sell 10 apples button 
+sell10.addEventListener('click', (e) => {
 
+    e.preventDefault();
+    sellApples(10);
 
+});
+//sell 25 apples button
+sell25.addEventListener('click', (e) => {
 
+    e.preventDefault();
+    sellApples(25);
 
+});
+//sell 100 apples button
+sell100.addEventListener('click', (e) => {
+
+    e.preventDefault();
+    sellApples(100);
+
+});
 
 
 //black market apples
@@ -237,7 +286,20 @@ function appleBlackMarketRate() {
     return Math.random() * (1.5-0.2);
 }   
 
+//sell apples on the market amt represents the amount of apples being sold 
+function sellApples(amt) {
+    marketWarning.innerText = "";
+    if(trashbags >= amt && trashbags > 0) {
+        money += amt * sellAppleRate * 200;
+        trashbags -= amt;
+        marketWarning.innerText = 'Da Ro The Exporter Says: "Your apples were sold, take the money and run."'
+
+    } else {
+        marketWarning.innerText = 'Da Ro The Exporter Says: "Go get more trashbags and come back..."';
+    }
+
+}
 
 window.setInterval(ticker, 2);//1sec tick 
-window.setInterval(textTicker, 1000);
+window.setInterval(textTicker, 10000);
 

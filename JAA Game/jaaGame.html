@@ -32,12 +32,13 @@
                 <h1>Jenks Apple Association: The Simulator</h1>
             </div>
 
-            <p id="scenario"></p>
+            <p id="scenario">You and your friend start stealing apples from your school cafeteria...</p>
        
             <div id="apple-inventory">
                 <h2><strong>Apples</strong></h2>
                 <p id="apple-info"><strong>Current Apple Count:</strong> 0</p>
                 <p id="total-apples"><strong>Total Apples:</strong> 0</p>
+                <p id="JAA-fund"><strong>Laundered Money:</strong> 0</p>
                 <p id="apple-workers"><strong>Workers:</strong> 2</p>
                 <p id="daily-apples"><strong>Daily Collection:</strong> 4 Apples</p>
                 <p id="daily-loss"><strong>Daily Loss:</strong> 0 Apples</p>
@@ -50,8 +51,8 @@
                     
                     <h2><strong>Transfer & Store Apples</strong></h2>
                     <p><strong>Apple Transfer Roadmap:</strong></p>
-                    <p>Apples are automatically stored in backpacks, apples must be then transfered into trashbags</p>
-                    <p>There are two storage options available: Forests or Sheds.</p>
+                    <p>Apples are automatically stored in backpacks, apples must be then discreetly transfered from the backpacks into trashbags</p>
+                    <p>The trashbags must be placed in inconspicuous locations, there are two storage options available: Forests or Sheds.</p>
                     <p>You will lose on average 30 apples in the forest and 8 in the sheds</p>
                 </div>
                
@@ -66,13 +67,13 @@
                 </div>
 
                 <p><strong>Put Apples into Trashbags:</strong></p>
-                <button id="transfer-to-trashbag">Transfer (Backpack to Trashbag)</button>
-                <p id="transfer-warning"></p>
+                <button id="transfer-to-trashbag">Tie up a trashbag worth of apples</button>
+                <p id="transfer-warning" class="warning"></p>
                 <p><strong>Trashbag Storage Options:</strong></p>
                 <button id="store-to-forest">Transfer to the Forest</button>
                 <button id="store-to-shed">Transfer to a Shed</button>
                 <p id="apple-loss-warning"></p>
-                <p><strong>CAUTION:</strong> Apples will be lost when stored, in the forest more apples will be lost, but more apples can be stored, in sheds less apples will be lost</p>
+                <p><strong>CAUTION:</strong> Apples will be lost when stored, in the forest more apples will be lost, but more apples can be stored, in sheds less apples will be lost, to store more apples in sheds you will need to buy more</p>
             </div>
        
 
@@ -83,6 +84,11 @@
                 <p><strong>Avaiable Apple Soliders</strong> 0</p>
                 <p><strong>Avaiable Apple Bombers</strong> 0</p>
                 <p><strong>Success Chance: </strong> 0%</p>
+                <p><strong>Recover Apples:</strong></p>
+                <button id="recover-forest">Attempt Forest Trashbag Recoveries</button>
+                <button id="recover-shed">Recover Trashbags From Sheds</button>
+                <p><strong>Note:</strong> Recovered Apples will be less than the amount originally collected</p>
+                <p><strong>Send Convoy:</strong></p>
                 <button>Conduct Appling Campaign</button>
             </div>
 
@@ -90,10 +96,11 @@
             <div id="market">
             <div id="black-market">
                 <h2>Black Market: Export Apples for Cash</h2>
-                <p  id="market-rate"><strong>Global Apple Rate:</strong> $0.00 per apple</p>
+                <p  id="market-rate"><strong>Global Apple Rate:</strong> [UNKNOWN] per apple</p>
+               
             </div>
-                <p>(Sell unstored trashbags)</p>
-           
+                <p><strong>Note:</strong> You can only sell bags that have not been stored yet</p>
+                <p id="market-warning" class="warning"></p>
                 <button type="button" id="sell-1">Sell 1 Trashbag</button>
                 <button type="button" id="sell-10">Sell 10 Trashbags</button>
                 <button type="button" id="sell-25">Sell 25 Trashbags</button>

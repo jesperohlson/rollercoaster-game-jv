@@ -1,26 +1,22 @@
 * {
     box-sizing: border-box;
-    
 }
 
-
-
-#transfer-warning {
-    color: red;
-    
+h1 {
+    color: black;
 }
 
 h2 {
-    
     color: rgb(190, 1, 1);
+}
+
+.warning {
+    color: red;
 }
 
 button {
     background: orange;
 }
 
-h1 {
 
-    color: black;
-}
 
