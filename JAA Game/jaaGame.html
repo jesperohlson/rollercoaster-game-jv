@@ -55,8 +55,9 @@
                 <div id="transfer-info">
                     
                     <h2><strong>Transfer & Store Apples</strong></h2>
-                    <p><strong>Apple Transfer Roadmap:</strong></p>
+                    <p><strong>Apple Transfer Information:</strong></p>
                     <p>Apples are automatically stored in backpacks, apples must be then discreetly transfered from the backpacks into trashbags</p>
+                    <p>(Trashbags will automatically be created when the trashbags are full)</p>
                     <p>The trashbags must be placed in inconspicuous locations, there are two storage options available: Forests or Sheds.</p>
                     <p>You will lose on average 30 apples in the forest and 8 in the sheds</p>
                 </div>
@@ -72,18 +73,22 @@
                 </div>
 
                 <p><strong>Put Apples into Trashbags:</strong></p>
-                <button id="transfer-to-trashbag">Tie up a trashbag worth of apples</button>
+                <button id="transfer-to-trashbag">Discreetly shove them into trashbags</button>
                 <p id="transfer-warning" class="warning"></p>
-                <p><strong>Trashbag Storage Options:</strong></p>
+                <p><strong>Move trashbags offiste:</strong></p>
                 <button id="store-to-forest">Transfer to the Forest</button>
                 <button id="store-to-shed">Transfer to a Shed</button>
-                <p id="apple-loss-warning"></p>
+                <p id="apple-loss-warning" class="warning"></p>
                 <p><strong>CAUTION:</strong> Apples will be lost when stored, in the forest more apples will be lost, but more apples can be stored, in sheds less apples will be lost, to store more apples in sheds you will need to buy more</p>
+                <p><strong>Purchase Addtional Sheds:</strong></p>
+                <button type="button" id="buy-shed">Buy Addtional Shed ($1200)</button>
+                <p id="buy-shed-warning" class="warning"></p>
+
             </div>
        
 
             <div id="appling">
-                <h2><strong>Apple Strategic Operations</strong></h2>
+                <h2><strong>Apple Command Operations</strong></h2>
                 <p><strong>Minimum Apples Needed For Campaign:</strong> 0</p>
                 <p><strong>House to Apple:</strong> (Insert HERE)</p>
                 <p><strong>Avaiable Apple Soliders</strong> 0</p>
@@ -103,11 +108,11 @@
 
             <div id="market">
             <div id="black-market">
-                <h2>Black Market: Export Apples for Cash</h2>
+                <h2>Black Market: Export Stolen Apples for Cash</h2>
                 <p  id="market-rate"><strong>Global Apple Rate:</strong> [UNKNOWN] per apple</p>
                
             </div>
-                <p><strong>Note:</strong> You can only sell bags that have not been stored yet</p>
+                <p><strong>Note:</strong> You can only sell trashbags that have not been stored yet</p>
                 <p id="market-warning" class="warning"></p>
                 <button type="button" id="sell-1">Sell 1 Trashbag</button>
                 <button type="button" id="sell-10">Sell 10 Trashbags</button>

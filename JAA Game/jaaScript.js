@@ -1,5 +1,7 @@
 //TODO work on combat shit and total apple and total collection variables 
 //figure out local storage shit too 
+//be able to upgrade how many apples sheds can cost and backpacks and shit
+//add ability to automically create trash bags with purchase 
 
 
 //DOM variables
@@ -17,6 +19,9 @@ const transferWarningText = document.getElementById('transfer-warning');//warnin
 const moveBagWarningText = document.getElementById('move-bag-warning')//warning if moving apples does not work
 const bagpackFullWarningText = document.getElementById('bag-full-warning')//warning if bag is full 
 const transferInformaton = document.getElementById('transfer-info');//transfer info text
+const buyShedWarningText = document.getElementById('buy-shed-warning');//shed warning text
+const offsiteMovementWarningText = document.getElementById('apple-loss-warning');//moving trashbags warning text
+
 
 //bottom section 
 
@@ -36,21 +41,26 @@ const sell100 = document.getElementById('sell-100');
 const transToBagsBtn = document.getElementById('transfer-to-trashbag');//move apples from backpack to trashbags
 const moveTrashbagsToForest = document.getElementById('store-to-forest');//move apples to forest button
 const moveTrashbagsToShed = document.getElementById('store-to-shed');//move apples to shed button
-const showTransferInfoBtn = document.getElementById('transfer-info-btn');
+const buyShedBtn = document.getElementById('buy-shed');//button to buy another shed 
 
 
-//variables
+//user game variables 
 let apples = 0;
 let money = 0;
 let trashbags = 0;
-
 let workers = 2;
-let dailyCollection = workers * 2;
+
+//shed related variables
+var sheds = 1
+let shedCost = 1200;
+let shedBags = 0;
+let maxShedBags = 6;
+
 
 let backpackApples = 0;
 let trashbagApples = 0;
 let forestBags = 0;
-let shedBags = 0;
+
 let appleBombers = 1;
 let appleSoldiers = 2;
 let minApples = 0;
@@ -61,7 +71,9 @@ let maxTrashbags = 2;
 let sellAppleRate = appleBlackMarketRate();
 let dailyLoss = forestBags * 30 + shedBags * 8;
 let totalApples = apples + trashbags * 200;
-let maxShedBags = 6;
+
+let dailyCollection = parseInt(workers) * 2;
+
 
 
 
@@ -97,6 +109,10 @@ const houseToApple = [
         bombers: 1
     }
 ];
+
+const workerCost = {
+
+};
 
 
 //updates the text at the very top of the page based on how many workers ther are 
@@ -188,7 +204,7 @@ function transferToBag() {
             trashbags++;
             trashbagApples -= 200;
             } else {
-                transferWarningText.innerText = "There is not enough room to tie up another trash bag, move the other bags offsite!";
+                transferWarningText.innerText = "Pierre's car cannot hold anymore trashbags, move the other bags offsite!";
             }
         } 
     } 
@@ -196,6 +212,7 @@ function transferToBag() {
 
 //takes apples from trashbags into either the forest or sheds 
 function moveTrashbags(destination) {
+    offsiteMovementWarningText.innerText = "";
     if(destination === "forest") {
         forestBags++;
         trashbags--;
@@ -204,11 +221,14 @@ function moveTrashbags(destination) {
         shedBags++;
         trashbags--;
         } else {
-            transferWarningText.innerText = "The shed cannot store anymore apples! Put the bags in the forest."
+            offsiteMovementWarningText.innerText = "The shed cannot store anymore apples! Put the bags in the forest."
         }
     }
 
 }//moveTrashbags
+
+
+
 
 
 //~~~~~~~~~~~~~~~~~~~~~BUTTONS~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -233,7 +253,7 @@ moveTrashbagsToForest.addEventListener('click', (e) => {
         moveTrashbags("forest");
    
     } else {
-        transferWarningText.innerText = "There are no trashbags to move!"
+        offsiteMovementWarningText.innerText = "There are no trashbags to move!"
     }
         
     
@@ -246,7 +266,7 @@ moveTrashbagsToShed.addEventListener('click', (e) => {
         moveTrashbags("shed");
       
     } else {
-        transferWarningText.innerText = "There are no trashbags to move!"
+        offsiteMovementWarningText.innerText = "There are no trashbags to move!"
     }
         
     
@@ -279,6 +299,26 @@ sell100.addEventListener('click', (e) => {
     sellApples(100);
 
 });
+//buy shed button 
+buyShedBtn.addEventListener('click', (e) => {
+    e.preventDefault(); 
+    buyShedWarningText.innerText = "";
+    if(money < shedCost) {
+        buyShedWarningText.innerText = "You do not have enough money to buy another shed!"
+    } else {
+        buyShed();
+        buyShedWarningText.innerText = "Shed has been purchased and illegally built..."
+    }
+});
+
+//purchase additional sheds
+function buyShed() {
+    money -= shedCost;
+    sheds++;
+    maxShedBags += 6;
+    shedCost = 1.2 ** sheds * 1000;//exponential equation
+    buyShedBtn.innerText = `Buy Addtional Shed ($${shedCost.toFixed(2)})`;
+}//buyShed
 
 
 //black market apples
@@ -292,10 +332,10 @@ function sellApples(amt) {
     if(trashbags >= amt && trashbags > 0) {
         money += amt * sellAppleRate * 200;
         trashbags -= amt;
-        marketWarning.innerText = 'Da Ro The Exporter Says: "Your apples were sold, take the money and run."'
+        marketWarning.innerText = `Da Ro The Exporter Says: "Your apples were sold for $${(amt * sellAppleRate * 200).toFixed(2)}, take the money and run."'`;
 
     } else {
-        marketWarning.innerText = 'Da Ro The Exporter Says: "Go get more trashbags and come back..."';
+        marketWarning.innerText = 'Da Ro The Exporter Says: "You got no bags boy..."';
     }
 
 }
