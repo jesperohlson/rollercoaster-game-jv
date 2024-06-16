@@ -2,6 +2,7 @@
 //figure out local storage shit too 
 //be able to upgrade how many apples sheds can cost and backpacks and shit
 //add ability to automically create trash bags with purchase 
+//random shed destruction 
 
 
 //DOM variables
@@ -25,6 +26,9 @@ const offsiteMovementWarningText = document.getElementById('apple-loss-warning')
 
 //bottom section 
 
+//command section 
+const shedWarningText = document.getElementById('shed-loss');
+
 
 //market
 const rateText = document.getElementById('market-rate');//number for apple cost
@@ -42,6 +46,7 @@ const transToBagsBtn = document.getElementById('transfer-to-trashbag');//move ap
 const moveTrashbagsToForest = document.getElementById('store-to-forest');//move apples to forest button
 const moveTrashbagsToShed = document.getElementById('store-to-shed');//move apples to shed button
 const buyShedBtn = document.getElementById('buy-shed');//button to buy another shed 
+
 
 
 //user game variables 
@@ -137,6 +142,8 @@ function ticker() {
         bagpackFullWarningText.innerText = "Pierre's Backpack is filled to the brim with apples! Shove them into trashbags.";
     }
     apples -= dailyLoss;
+    totalApples = apples + forestBags * 200 + shedBags * 200 + trashbagApples + trashbags * 200;
+    dailyCollection = workers * 2;
 
    // totalApples += dailyCollection;
     //update HTML elements
@@ -157,7 +164,7 @@ function updateInventory() {
     inventory.innerHTML = `
         <h2><strong>Apples</strong></h2>
         <p class="apple-info"><strong>Current Apple Count:</strong> ${apples}</p>
-        <p id="total-apples"><strong>Total Apples:</strong> ${totalApples}</p>
+        <p id="total-apples"><strong>Total [Estimated] Apples:</strong> ${totalApples}</p>
          <p id="JAA-fund"><strong>Laundered Money:</strong> $${money.toFixed(2)}</p>
         <p id="apple-workers"><strong>Workers:</strong> ${workers}</p>
         <p class="daily-apples"><strong>Daily Collection:</strong> ${dailyCollection} Apples</p>
@@ -181,7 +188,7 @@ function updateBlackMarket() {
     sellAppleRate = appleBlackMarketRate().toFixed(2);
     blackMarketText.innerHTML = `
     
-    <h2>Black Market: Export Apples for Cash</h2>
+    <h2>Black Market: Export Stolen Apples for Cash</h2>
     <p><strong>Global Apple Rate:</strong> $${sellAppleRate} per apple</p>
 
     `;
@@ -335,11 +342,39 @@ function sellApples(amt) {
         marketWarning.innerText = `Da Ro The Exporter Says: "Your apples were sold for $${(amt * sellAppleRate * 200).toFixed(2)}, take the money and run."'`;
 
     } else {
-        marketWarning.innerText = 'Da Ro The Exporter Says: "You got no bags boy..."';
+        marketWarning.innerText = 'Da Ro The Exporter Says: "You got no bags boy"';
     }
+}//sellApples
 
-}
+
+const opps = [
+"Orange Citadel",
+"Strawberry Mafia",
+"Pear Syndicate",
+"Apple Exporters Corp.",
+"Evil Kiwi Group",
+""
+];
+
+//randomly destroys sheds
+function shedDestruction() {
+    if(sheds != 1) {
+        if(Math.random() <= 0.5) {
+            shedWarningText.innertext = `
+                JAA INTELLGEINCE: The ${opps[Math.floor(Math.random() * (opps.length-1))]} have destroyed one of our sheds, we do not know how many apples were lost
+            `;
+            maxShedBags -= 6;
+            if(shedBags > maxShedBags) {
+                shedBags = maxShedBags;
+            }
+        } else {
+            shedWarningText.innerText = "JAA INTELLIGENCE: There was an attempt by an unknown group to destroy one of our sheds.";
+        }
+    }
+}//shedDestruction
+
 
 window.setInterval(ticker, 2);//1sec tick 
 window.setInterval(textTicker, 10000);
+window.setInterval(shedDestruction, 10000);
 
