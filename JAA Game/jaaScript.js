@@ -5,6 +5,16 @@
 //random shed destruction 
 
 
+//style.display to change css from html 
+//confirm()
+/*
+
+const startGame = () => {
+  canvas.style.display = 'block';
+  startScreen.style.display = 'none';
+}
+*/
+
 //DOM variables
 //top section 
 const inventory = document.getElementById('apple-inventory');//top section of the page 
@@ -28,6 +38,10 @@ const offsiteMovementWarningText = document.getElementById('apple-loss-warning')
 
 //command section 
 const shedWarningText = document.getElementById('shed-loss');
+const recoveredApplesText = document.getElementById('recovered-apples');
+//command section buttons
+const forestAppleRecoverBtn = document.getElementById('recover-forest');
+
 
 
 //market
@@ -78,7 +92,45 @@ let dailyLoss = forestBags * 30 + shedBags * 8;
 let totalApples = apples + trashbags * 200;
 
 let dailyCollection = parseInt(workers) * 2;
+let recoveredAppleCount = 0;
+let bagRecoveredCount = 0;
+let estAppleLoss = 0;//for recovery
+let warApples = 0;
 
+
+//arrays to keep track of bags that have been stored
+//when bags are placed somewhere each bag gets a '1' pushed into array
+//each '1' represents 1 trashbag/200 apples can be randomly modified 
+let forestBagArr = [];
+let shedBagArr = [];
+
+//randomy decreases the amount of apples that are in the forest
+function forestAppleLoss() {
+    if(forestBagArr.length > 0) {
+        forestBagArr[Math.floor(Math.random() * forestBagArr.length)] = Math.random();
+    }
+}//forestAppleLoss
+
+function recoverForestApples(arr) {
+    recoveredAppleCount = 0;
+    bagRecoveredCount = arr.length;
+  
+    const recoveredApples = arr.forEach((bag) => bag*200)
+    forestBagArr = [];
+    forestBags = 0;
+    recoveredAppleCount = recoveredApples;
+    estAppleLoss = bagRecoveredCount * 200 - recoveredApples;
+    warApples += recoveredApples;
+    return recoveredApples;
+}
+
+function shedAppleLoss() {
+    if(forestBagArr.length > 0) {
+        shedBagArr[Math.floor(Math.random() * shedBagArr.length-1)] -= Math.random();
+    }
+}
+
+window.setInterval(forestAppleLoss, 1000);
 
 
 
@@ -152,17 +204,18 @@ function ticker() {
     
     
 }
-//updates text for specific portions
+//updates text for specific portions or longer timed event
 function textTicker() {
     updateBlackMarket();
     updateScenario();
+    shedDestruction();
 }
 
 
 //update top portion of HTML
 function updateInventory() {
     inventory.innerHTML = `
-        <h2><strong>Apples</strong></h2>
+        <h2><strong>Apples & Workers</strong></h2>
         <p class="apple-info"><strong>Current Apple Count:</strong> ${apples}</p>
         <p id="total-apples"><strong>Total [Estimated] Apples:</strong> ${totalApples}</p>
          <p id="JAA-fund"><strong>Laundered Money:</strong> $${money.toFixed(2)}</p>
@@ -223,10 +276,12 @@ function moveTrashbags(destination) {
     if(destination === "forest") {
         forestBags++;
         trashbags--;
+        forestBagArr.push(1);
     } else if(destination === "shed") {
         if(shedBags < maxShedBags) {
         shedBags++;
         trashbags--;
+        shedBagArr.push(1);
         } else {
             offsiteMovementWarningText.innerText = "The shed cannot store anymore apples! Put the bags in the forest."
         }
@@ -317,6 +372,17 @@ buyShedBtn.addEventListener('click', (e) => {
         buyShedWarningText.innerText = "Shed has been purchased and illegally built..."
     }
 });
+//recover forest apples
+forestAppleRecoverBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    recoveredApplesText.innerText = "";
+    if(forestBagArr.length > 0) {
+        recoverForestApples(forestBagArr);
+        recoveredApplesText.innerText = `JAA Recovery Team: We have recovered ${recoveredAppleCount} apples from ${bagRecoveredCount} bags with an estimated loss of ${estAppleLoss} apples.`;
+    } else {
+        recoveredApplesText.innerText = "Jaa Recovery Team: There are no bags to recover!";
+    }
+});
 
 //purchase additional sheds
 function buyShed() {
@@ -353,7 +419,12 @@ const opps = [
 "Pear Syndicate",
 "Apple Exporters Corp.",
 "Evil Kiwi Group",
-""
+"Math Meat Menaces",
+"Wikis",
+"Duck fat man",
+"Pickle lovers",
+"JS Niu Nai",
+"Natty Confederation",
 ];
 
 //randomly destroys sheds
@@ -361,8 +432,8 @@ function shedDestruction() {
     if(sheds != 1) {
         if(Math.random() <= 0.5) {
             shedWarningText.innertext = `
-                JAA INTELLGEINCE: The ${opps[Math.floor(Math.random() * (opps.length-1))]} have destroyed one of our sheds, we do not know how many apples were lost
-            `;
+                JAA INTELLGEINCE: The ${opps[Math.floor(Math.random() * (opps.length))]} have destroyed one of our sheds, we do not know how many apples were lost
+                `;//take random index from opps array
             maxShedBags -= 6;
             if(shedBags > maxShedBags) {
                 shedBags = maxShedBags;
@@ -376,5 +447,5 @@ function shedDestruction() {
 
 window.setInterval(ticker, 2);//1sec tick 
 window.setInterval(textTicker, 10000);
-window.setInterval(shedDestruction, 10000);
+
 

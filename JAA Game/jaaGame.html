@@ -35,7 +35,7 @@
             <p id="scenario">You and your friend start stealing apples from your school cafeteria...</p>
        
             <div id="apple-inventory">
-                <h2><strong>Apples</strong></h2>
+                <h2><strong>Apples & Workers</strong></h2>
                 <p id="apple-info"><strong>Current Apple Count:</strong> 0</p>
                 <p id="total-apples"><strong>Total [Estimated] Apples:</strong> 0</p>
                 <p id="JAA-fund"><strong>Laundered Money:</strong> 0</p>
@@ -59,7 +59,8 @@
                     <p>Apples are automatically stored in backpacks, apples must be then discreetly transfered from the backpacks into trashbags</p>
                     <p>(Trashbags will automatically be created when the trashbags are full)</p>
                     <p>The trashbags must be placed in inconspicuous locations, there are two storage options available: Forests or Sheds.</p>
-                    <p>You will lose on average 30 apples in the forest and 8 in the sheds</p>
+                    <p>You will lose a random, yet very large amount of apples in the forest in most cases</p>
+                    <p>In comparison, very little apples will be lost in sheds because they provide beteter protection</p>
                 </div>
                
                 <div id="transfer-text">
@@ -76,13 +77,16 @@
                 <button id="transfer-to-trashbag">Discreetly shove them into trashbags</button>
                 <p id="transfer-warning" class="warning"></p>
                 <p><strong>Move trashbags offiste:</strong></p>
+                <p><strong>CAUTION:</strong> As stated above, more apples will be lost in the forest, be careful how you distribute your trashbags</p>
                 <button id="store-to-forest">Transfer to the Forest</button>
                 <button id="store-to-shed">Transfer to a Shed</button>
                 <p id="apple-loss-warning" class="warning"></p>
-                <p><strong>CAUTION:</strong> Apples will be lost when stored, in the forest more apples will be lost, but more apples can be stored, in sheds less apples will be lost, to store more apples in sheds you will need to buy more</p>
                 <p><strong>Purchase Addtional Sheds:</strong></p>
                 <button type="button" id="buy-shed">Buy Addtional Shed ($1200)</button>
                 <p id="buy-shed-warning" class="warning"></p>
+                <p><strong>Upgrade Sheds</strong></p>
+                <button>Upgrade Sheds ($50000)</button>
+                <p id="upgrade-warning" class="warning"></p>
 
             </div>
        
@@ -92,6 +96,16 @@
                 <p>Other factions from other cities are trying to assert dominance over our Association</p>
                 <p>Apples must be used to mark our territory and destroy any of our opponents</p>
                 <p><strong>Minimum Apples Needed For Campaign:</strong> 0</p>
+                
+                
+                <div id="artillery"></div>
+                <p><strong>Current Strength:</strong></p>
+                <p><strong>Ammunition: </strong> 0 Apples</p>
+                <p><strong>Apple Bombers: </strong> 1 Vehicle</p>
+
+
+
+
                 <p><strong>House to Apple:</strong> (Insert HERE)</p>
                 <p><strong>Avaiable Apple Soliders</strong> 0</p>
                 <p id="bribe-soldier-cost">Cost to "Persuade" Solider Into Joining Your Mission</p>
@@ -102,6 +116,7 @@
                 <p><strong>Recover Apples:</strong></p>
                 <button id="recover-forest">Attempt Forest Trashbag Recoveries</button>
                 <button id="recover-shed">Recover Trashbags From Sheds</button>
+                <p id="recovered-apples" class="warning"></p>
                 <p id="shed-loss" class="warning"></p>
                 <p><strong>Note:</strong> Recovered Apples will be less than the amount originally collected</p>
                 <p><strong>Send Convoy:</strong></p>
@@ -131,6 +146,7 @@
 
 
     <footer>
-        <p>This game is based on a true story, read the lore <a href="https://en.wikipedia.org/wiki/User:Dkapples/sandbox">here</a> RIP JAA (11/2021-4/2022)</p>
+        <p>This game is based on a true story, read the lore <a href="https://en.wikipedia.org/wiki/User:Dkapples/sandbox">here</a></p>
+        <p>RIP to the real JAA (11/2021-4/2022)</p>
     </footer>
 </html>
