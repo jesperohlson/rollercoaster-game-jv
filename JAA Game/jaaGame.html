@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- add bootstrap/fontawesome instead of using css directly -->
         <title>Jenks Apple Association Online Game</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,6 +34,15 @@
             </div>
 
             <p id="scenario">You and your friend start stealing apples from your school cafeteria...</p>
+
+
+
+            <button type="button" id="info-btn">How to Play</button>
+            <div id="tutorial"  style="display: none">
+
+            </div>
+
+           
        
             <div id="apple-inventory">
                 <h2><strong>Apples & Workers</strong></h2>
@@ -52,17 +62,9 @@
 
       
             <div id="transfer">
-                <div id="transfer-info">
-                    
+                
                     <h2><strong>Transfer & Store Apples</strong></h2>
-                    <p><strong>Apple Transfer Information:</strong></p>
-                    <p>Apples are automatically stored in backpacks, apples must be then discreetly transfered from the backpacks into trashbags</p>
-                    <p>(Trashbags will automatically be created when the trashbags are full)</p>
-                    <p>The trashbags must be placed in inconspicuous locations, there are two storage options available: Forests or Sheds.</p>
-                    <p>You will lose a random, yet very large amount of apples in the forest in most cases</p>
-                    <p>In comparison, very little apples will be lost in sheds because they provide beteter protection</p>
-                </div>
-               
+                    
                 <div id="transfer-text">
                     <p><strong>Apples in Backpacks:</strong> 0/60</p>
                     <p id="bag-full-warning"></p>
@@ -74,10 +76,11 @@
                 </div>
 
                 <p><strong>Put Apples into Trashbags:</strong></p>
+                <p><strong>Note:</strong> Spam clicking will result in negative apples as a cooldown/penalty</p>
                 <button id="transfer-to-trashbag">Discreetly shove them into trashbags</button>
                 <p id="transfer-warning" class="warning"></p>
                 <p><strong>Move trashbags offiste:</strong></p>
-                <p><strong>CAUTION:</strong> As stated above, more apples will be lost in the forest, be careful how you distribute your trashbags</p>
+                <p><strong>CAUTION:</strong> Try and store as many bags in the sheds, as in the forest your apples will be lost quicker</p>
                 <button id="store-to-forest">Transfer to the Forest</button>
                 <button id="store-to-shed">Transfer to a Shed</button>
                 <p id="apple-loss-warning" class="warning"></p>
@@ -87,35 +90,34 @@
                 <p><strong>Upgrade Sheds</strong></p>
                 <button>Upgrade Sheds ($50000)</button>
                 <p id="upgrade-warning" class="warning"></p>
+                <p><strong>Upgrade Trashbag Storage</strong></p>
+                <button id="upgrade-vehicle">Upgrade Apple Transport Vehicle ($5000)</button>
+                <p id="buy-vehicle-warning" class="warning"></p>
 
             </div>
        
 
             <div id="appling">
                 <h2><strong>Apple Command Operations</strong></h2>
-                <p>Other factions from other cities are trying to assert dominance over our Association</p>
-                <p>Apples must be used to mark our territory and destroy any of our opponents</p>
+
                 <p><strong>Minimum Apples Needed For Campaign:</strong> 0</p>
+                <p><strong>House to Apple:</strong> (Insert HERE)</p>
                 
                 
                 <div id="artillery"></div>
                 <p><strong>Current Strength:</strong></p>
-                <p><strong>Ammunition: </strong> 0 Apples</p>
+                <p id="war-apples"><strong>Ammunition: </strong> 0 Apples</p>
                 <p><strong>Apple Bombers: </strong> 1 Vehicle</p>
-
-
-
-
-                <p><strong>House to Apple:</strong> (Insert HERE)</p>
                 <p><strong>Avaiable Apple Soliders</strong> 0</p>
                 <p id="bribe-soldier-cost">Cost to "Persuade" Solider Into Joining Your Mission</p>
                 <button id="bribe-soldier">Bribe (Again)</button>
                 <p class="warning" id="bribe-solder-warning"></p>
-                <p><strong>Avaiable Apple Bombers</strong> 0</p>
                 <p><strong>Success Chance: </strong> 0%</p>
                 <p><strong>Recover Apples:</strong></p>
+                <p><strong>Warning: </strong>Recovered apples will decay extremely fast -- only recover if you are sure you have enough apples for battle</p>
                 <button id="recover-forest">Attempt Forest Trashbag Recoveries</button>
                 <button id="recover-shed">Recover Trashbags From Sheds</button>
+                
                 <p id="recovered-apples" class="warning"></p>
                 <p id="shed-loss" class="warning"></p>
                 <p><strong>Note:</strong> Recovered Apples will be less than the amount originally collected</p>
@@ -128,9 +130,7 @@
             <div id="black-market">
                 <h2>Black Market: Export Stolen Apples for Cash</h2>
                 <p  id="market-rate"><strong>Global Apple Rate:</strong> [UNKNOWN] per apple</p>
-               
             </div>
-                <p><strong>Note:</strong> You can only sell trashbags that have not been stored yet</p>
                 <p id="market-warning" class="warning"></p>
                 <button type="button" id="sell-1">Sell 1 Trashbag</button>
                 <button type="button" id="sell-10">Sell 10 Trashbags</button>

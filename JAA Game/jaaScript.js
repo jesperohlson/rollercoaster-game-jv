@@ -22,7 +22,10 @@ const numOfApplesHTML = document.getElementById('apple-info');//apple count
 const workersHTML = document.getElementById("apple-workers");//apple workers
 const appleRateHTML = document.getElementById('daily-apples');//apple daily gain
 const appleRateLossHTML = document.getElementById('daily-loss')//apple dalily loss
-const scenario = document.getElementById('scenario');
+const scenario = document.getElementById('scenario');//text at the very top of the page 
+const buyVehicleBtn = document.getElementById('upgrade-vehicle');//button to upgrade vehicle to hold more trashbags 
+const upgradeWarningText = document.getElementById('buy-vehicle-warning');//warning text for vehicle purchase
+const tutorialInformation = document.getElementById('tutorial');
 
 //middle section 
 const transferText = document.getElementById('transfer-text');//text for mid section of page
@@ -39,8 +42,10 @@ const offsiteMovementWarningText = document.getElementById('apple-loss-warning')
 //command section 
 const shedWarningText = document.getElementById('shed-loss');
 const recoveredApplesText = document.getElementById('recovered-apples');
+const warTimeApplesText = document.getElementById('war-apples');
 //command section buttons
 const forestAppleRecoverBtn = document.getElementById('recover-forest');
+const shedAppleRecoverBtn = document.getElementById('recover-shed');
 
 
 
@@ -60,6 +65,7 @@ const transToBagsBtn = document.getElementById('transfer-to-trashbag');//move ap
 const moveTrashbagsToForest = document.getElementById('store-to-forest');//move apples to forest button
 const moveTrashbagsToShed = document.getElementById('store-to-shed');//move apples to shed button
 const buyShedBtn = document.getElementById('buy-shed');//button to buy another shed 
+const tutorialButton = document.getElementById('info-btn');
 
 
 
@@ -104,36 +110,59 @@ let warApples = 0;
 let forestBagArr = [];
 let shedBagArr = [];
 
-//randomy decreases the amount of apples that are in the forest
-function forestAppleLoss() {
-    if(forestBagArr.length > 0) {
-        forestBagArr[Math.floor(Math.random() * forestBagArr.length)] = Math.random();
+//tutorial information for the user 
+tutorialInformation.innerHTML =  `
+    <h2><strong>LeTutorial</strong></h2>
+    <p>There are many factions in this city which assert dominance by using various fruit to destroy buildings and mark their territory</p>
+    <p>You and your friends steal apples from your school in order to show what the supeior fruit is<p>
+    <p>Apple collection is hard though, as stealing apples is very hard to conceal, so each person can only collect two apples in a day</p>
+    <h3><strong>Apple Transfer Information:</strong></h3>
+    <p>Apples are automatically stored in backpacks, apples must be then discreetly transfered from the backpacks into trashbags</p>
+    <p>(Trashbags will automatically be created when the trashbags are full)</p>
+    <p>The trashbags must be placed in inconspicuous locations, there are two storage options available: Forests or Sheds.</p>
+    <p>You will lose a random, yet very large amount of apples in the forest in most cases</p>
+    <p>In comparison, very little apples will be lost in sheds because they provide beteter protection</p>
+    <h3><strong>Apple Command Information</strong></h3>
+    <p>To conduct an operation with your apples you will need to recover the apples that you have stored</p>
+    <p>As you progress through your targets you will need to get more apples and soliders to assist you</p>
+
+    <h3><strong>Black Market Information</strong></h3>
+    <p>To get cash in this game you will need to sell trashbags of apples on the black market</p>
+    <p><strong>Note:</strong> You can only sell trashbags that have not been stored</p>
+
+
+
+`;
+
+
+//way to store more trashbags at once
+const vehicles = [
+    {
+        name: "Small SUV",
+        maxBags: 6,
+        cost: 5000
+    },
+    {
+        name: "Large SUV",
+        maxBags: 18, 
+        cost: 15000
+    },
+    {
+        name: "Pickup Truck",
+        maxBags: 35,
+        cost: 25000
+    },
+    {
+        name: "Box truck",
+        maxBags: 200,
+        cost: 75000
+    },
+    {
+        name: "Semi Truck",
+        maxBags: 1000, 
+        cost: 300000
     }
-}//forestAppleLoss
-
-function recoverForestApples(arr) {
-    recoveredAppleCount = 0;
-    bagRecoveredCount = arr.length;
-  
-    const recoveredApples = arr.forEach((bag) => bag*200)
-    forestBagArr = [];
-    forestBags = 0;
-    recoveredAppleCount = recoveredApples;
-    estAppleLoss = bagRecoveredCount * 200 - recoveredApples;
-    warApples += recoveredApples;
-    return recoveredApples;
-}
-
-function shedAppleLoss() {
-    if(forestBagArr.length > 0) {
-        shedBagArr[Math.floor(Math.random() * shedBagArr.length-1)] -= Math.random();
-    }
-}
-
-window.setInterval(forestAppleLoss, 1000);
-
-
-
+]
 const houseToApple = [
     {
         name: "Random Party",
@@ -170,6 +199,18 @@ const houseToApple = [
 const workerCost = {
 
 };
+
+function warAppleLoss() {
+    if(warApples > 0) {
+    warApples -= Math.floor(10 * Math.random());
+    if(warApples < 0) {
+        warApples = 0;
+    }
+    warTimeApplesText.innerHTML = `<p id="war-apples"><strong>Ammunition:</strong> ${warApples} Apples</p>`
+    }
+}
+
+window.setInterval(warAppleLoss, 500);
 
 
 //updates the text at the very top of the page based on how many workers ther are 
@@ -306,6 +347,12 @@ transToBagsBtn.addEventListener('click', (e) => {
     } else {
         transferWarningText.innerText = "There are not enough apples to transfer! Wait for backpack apples to be replenished.";
     }
+
+    if(backpackApples < 0) {
+        backpackApples = 0;
+    }
+
+
 });
 //move appples to frest button
 moveTrashbagsToForest.addEventListener('click', (e) => {
@@ -372,17 +419,56 @@ buyShedBtn.addEventListener('click', (e) => {
         buyShedWarningText.innerText = "Shed has been purchased and illegally built..."
     }
 });
-//recover forest apples
+//recover forest apples for battle
 forestAppleRecoverBtn.addEventListener('click', (e) => {
     e.preventDefault();
     recoveredApplesText.innerText = "";
     if(forestBagArr.length > 0) {
         recoverForestApples(forestBagArr);
-        recoveredApplesText.innerText = `JAA Recovery Team: We have recovered ${recoveredAppleCount} apples from ${bagRecoveredCount} bags with an estimated loss of ${estAppleLoss} apples.`;
+        recoveredApplesText.innerText = `JAA Recovery Team Report:\nType: Forest Apples\nApples Recovered: ${recoveredAppleCount}\nTrasbags Recovered: ${bagRecoveredCount}\nEstimated Apples Lost: ${estAppleLoss}`;
     } else {
-        recoveredApplesText.innerText = "Jaa Recovery Team: There are no bags to recover!";
+        recoveredApplesText.innerText = "JAA Apple Recovery Team: There are no bags to recover!";
     }
+    warTimeApplesText.innerHTML =  `<p id="war-apples"><strong>Ammunition:</strong> ${warApples} Apples</p>`
 });
+//recover shed apples for battle
+shedAppleRecoverBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    recoveredApplesText.innerText = ""
+    if(shedBagArr.length > 0) {
+        recoverShedApples(shedBagArr);
+        recoveredApplesText.innerText = `JAA Recovery Team Report:\nType: Shed Apples\nApples Recovered: ${recoveredAppleCount}\nTrasbags Recovered: ${bagRecoveredCount}\nEstimated Apples Lost: ${estAppleLoss}`;
+    } else {
+        recoveredApplesText.innerText = "JAA Apple Recovery Team: There are no bags to recover!";
+    }
+     warTimeApplesText.innerHTML =  `<p id="war-apples"><strong>Ammunition:</strong> ${warApples} Apples</p>`
+});
+tutorialButton.addEventListener('click', (e) => {
+    e.preventDefault();
+  
+    if(tutorialInformation.style.display === 'none') {
+        tutorialInformation.style.display = "block";
+    } else {
+        tutorialInformation.style.display = 'none';
+    }
+
+});
+
+
+
+
+//upgrade vehicle (or trashbags that can be held at once)
+buyVehicleBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+
+});
+
+function upgradeVehicle() {
+    if(money > vehicles[0].cost) {
+        maxTrashbags = vehicles[0].maxBags;
+        money -= vehicles[0].cost;
+    }
+}
 
 //purchase additional sheds
 function buyShed() {
@@ -444,8 +530,49 @@ function shedDestruction() {
     }
 }//shedDestruction
 
+//randomly decreases the amount of apples that are in the forest
+function forestAppleLoss() {
+    if(forestBagArr.length > 0) {
+        forestBagArr[Math.floor(Math.random() * forestBagArr.length)] = Math.random();
+    }
+}//forestAppleLoss
 
-window.setInterval(ticker, 2);//1sec tick 
+//function to recover apples from the forest into war apples
+function recoverForestApples(arr) {
+    recoveredAppleCount = 0;
+    bagRecoveredCount = arr.length;
+    const recoveredApples = Math.floor(arr.reduce((bag, a) => bag  + a, 0) * 200);
+    forestBagArr = [];
+    forestBags = 0;
+    recoveredAppleCount = recoveredApples;
+    estAppleLoss = bagRecoveredCount * 200 - recoveredApples;
+    warApples += recoveredApples;
+}//recoverForestApples
+
+//constantly decreases the amount of apples that are in the forest 
+function shedAppleLoss() {
+    if(shedBagArr.length > 0) {
+        shedBagArr[Math.floor(Math.random() * shedBagArr.length)] -= 0.015;
+    }
+}//shedAppleLoss
+
+//function to recover apples from the forest into war apples
+function recoverShedApples(arr) {
+    recoveredAppleCount = 0;
+    bagRecoveredCount = arr.length;
+    const recoveredApples = Math.floor(arr.reduce((bag, a) => bag  + a, 0) * 200);
+    shedBagArr = [];
+    shedBags = 0;
+    recoveredAppleCount = recoveredApples;
+    estAppleLoss = bagRecoveredCount * 200 - recoveredApples;
+    warApples += recoveredApples;
+}
+
+//set shed loss of apples to be lower than the apples from the forest 
+window.setInterval(forestAppleLoss, 1000);
+window.setInterval(shedAppleLoss, 10000);
+
+window.setInterval(ticker, 1);//1sec tick 
 window.setInterval(textTicker, 10000);
 
 
