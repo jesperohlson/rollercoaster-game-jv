@@ -17,13 +17,9 @@ h2 {
 }
 
 button {
-    background: orange;
+    background: yellowgreen;
 }
 
-@keyframes fadeOut {
-    0% {opacity: 1;}
-    100% {opacity: 0;} 
- } /*idk how to apply (animation-name:)*/
 
 
 

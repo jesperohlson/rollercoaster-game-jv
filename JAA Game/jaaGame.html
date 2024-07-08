@@ -37,7 +37,7 @@
 
 
 
-            <button type="button" id="info-btn">How to Play</button>
+            <button type="button" id="info-btn">Help</button>
             <div id="tutorial"  style="display: none">
 
             </div>
@@ -51,11 +51,11 @@
                 <p id="JAA-fund"><strong>Laundered Money:</strong> 0</p>
                 <p id="apple-workers"><strong>Workers:</strong> 2</p>
                 <p id="daily-apples"><strong>Daily Collection:</strong> 4 Apples</p>
-                <p id="daily-loss"><strong>Daily Loss:</strong> 0 Apples</p>
+         
             </div>
 
-            <p id="bribe-worker-cost"><strong>Cost to "Recruit" Another Worker: </strong> 0</p>
-            <button id="bribe-worker">Bribe Them</button>
+            <p><strong>Recruit More Workers: </strong></p>
+            <button id="bribe-worker">Bribe Them ($156.25)</button>
             <p class="warning" id="bribe-worker-warning"></p>
             
   
@@ -87,8 +87,8 @@
                 <p><strong>Purchase Addtional Sheds:</strong></p>
                 <button type="button" id="buy-shed">Buy Addtional Shed ($1200)</button>
                 <p id="buy-shed-warning" class="warning"></p>
-                <p><strong>Upgrade Sheds</strong></p>
-                <button>Upgrade Sheds ($50000)</button>
+                <p><strong>Upgrade Sheds:</strong> Only uprgrades current sheds, not future ones</p>
+                <button type="button" id="upgrade-shed-button">Upgrade Sheds ($12500)</button>
                 <p id="upgrade-warning" class="warning"></p>
                 <p><strong>Upgrade Trashbag Storage</strong></p>
                 <button id="upgrade-vehicle">Upgrade Apple Transport Vehicle ($5000)</button>
@@ -108,9 +108,10 @@
                 <p><strong>Current Strength:</strong></p>
                 <p id="war-apples"><strong>Ammunition: </strong> 0 Apples</p>
                 <p><strong>Apple Bombers: </strong> 1 Vehicle</p>
-                <p><strong>Avaiable Apple Soliders</strong> 0</p>
-                <p id="bribe-soldier-cost">Cost to "Persuade" Solider Into Joining Your Mission</p>
-                <button id="bribe-soldier">Bribe (Again)</button>
+                <p id="solider-count"><strong>Apple Soliders:</strong> 0</p>
+                <p id="bribe-soldier-cost"><strong>Allocate Soliders:</strong></p>
+                <button id="worker-solider" type="button">Convert Worker To Solider</button>
+                <button id="solider-worker" type="button">Convert Soldier to Worker</button>
                 <p class="warning" id="bribe-solder-warning"></p>
                 <p><strong>Success Chance: </strong> 0%</p>
                 <p><strong>Recover Apples:</strong></p>
@@ -146,7 +147,7 @@
 
 
     <footer>
-        <p>This game is based on a true story, read the lore <a href="https://en.wikipedia.org/wiki/User:Dkapples/sandbox">here</a></p>
-        <p>RIP to the real JAA (11/2021-4/2022)</p>
+        <p>Unfortunately based on a real story</p>
+        <p>RIP JAA (11/2021-4/2022)</p>
     </footer>
 </html>
