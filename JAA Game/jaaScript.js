@@ -1,28 +1,17 @@
-//TODO work on combat shit and total apple and total collection variables 
-//figure out local storage shit too 
-//be able to upgrade how many apples sheds can cost and backpacks and shit
-//add ability to automically create trash bags with purchase 
-//random shed destruction MIGHT DELETE FEATURE
-
-//TODO: organize this code so it goes in this order
-//DOM --> constants and variables --> functions --> buttons --> window timers
-
-
-
-//style.display to change css from html 
-//confirm()
+//TODO list
 /*
-
-const startGame = () => {
-  canvas.style.display = 'block';
-  startScreen.style.display = 'none';
-}
+    1. local storage
+    2. fix or delete random shed destruction
+    3. create some feature where trash bags can be made automically
+    4. create feature where you can uprgade backpack capaicty 
+    5. create feature where you can upgrade trashbag capacity
 */
+
 
 
 //javascript code for the apple game
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DOM VARIABLES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DOM VARIABLES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //top section 
 const inventory = document.getElementById('apple-inventory');                       //top section of the page 
@@ -36,7 +25,7 @@ const upgradeWarningText = document.getElementById('buy-vehicle-warning');      
 const tutorialInformation = document.getElementById('tutorial');                    //tutorial button
 const buyWorkerWarningText = document.getElementById('bribe-worker-warning');       //warning text for buying another worker
 
-//middle section 
+//apple transfer section 
 const transferText = document.getElementById('transfer-text');                      //text for mid section of page
 const transferWarningText = document.getElementById('transfer-warning');            //warning if transfer does not complete
 const moveBagWarningText = document.getElementById('move-bag-warning');             //warning if moving apples does not work
@@ -50,8 +39,6 @@ const upgradeShedWarningText = document.getElementById('upgrade-warning');      
 const upgradeShedBtn = document.getElementById('upgrade-shed-button');              //button to upgrade shed
 
 
-//bottom section 
-
 //command section 
 const shedWarningText = document.getElementById('shed-loss');                       //warning if sheds are destroyed
 const recoveredApplesText = document.getElementById('recovered-apples');
@@ -64,6 +51,9 @@ const soldiersCountHTML = document.getElementById('solider-count');             
 //command section buttons
 const forestAppleRecoverBtn = document.getElementById('recover-forest');            //recover apples from the forest for war
 const shedAppleRecoverBtn = document.getElementById('recover-shed');                //recover apples from the shed for war
+const appleCampBtn = document.getElementById('campaign');                           //conduct campaign for apples 
+const appleCampText = document.getElementById('house-info');                        //text for the house the apple
+const appleCampResults = document.getElementById('campaign-result');                //resultant text after sending convoy for apple campaign
 
 //market
 const rateText = document.getElementById('market-rate');                            //number for apple cost
@@ -83,6 +73,8 @@ const moveTrashbagsToForest = document.getElementById('store-to-forest');       
 const moveTrashbagsToShed = document.getElementById('store-to-shed');               //move apples to shed button
 const buyShedBtn = document.getElementById('buy-shed');                             //button to buy another shed 
 const tutorialButton = document.getElementById('info-btn');                         //tutorial button
+const saveBtn = document.getElementById('save');                                    //save button
+const loadSaveBtn = document.getElementById('load-save');                           //load previous save button
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CONSTANTS/VARIABLES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -129,6 +121,23 @@ let forestBagArr = [];                          //tracks apples in the forest
 let shedBagArr = [];                            //tracks apples in the sheds
 
 let nextAvailVehicle = 0;                       //represents the current vehicle the user has in the vehicles array
+let shedUpgradeCount = 1;                       //represents the amount of times that the sheds have been upgraded 
+let currHouse = 0;                              //current house in house to apple array num
+
+
+let thisSave = {
+
+
+    applesSave: apples,
+    workersSave: workers,
+    currHouseSave: currHouse,
+    shedUpgradeCostSave: shedUpgradeCost,
+    trashbagSave: trashbags,
+    moneySave: money, 
+
+    
+
+}
 
 
 
@@ -184,119 +193,45 @@ const vehicles = [
 ];
 
 //represents the current target that needs to be appled
-//TODO: implement and use this for the wartime function 
+//NOTE: bombers attribute not used 
+//TODO: add more targets and also update them in a sequential manner 
 const houseToApple = [
     {
         name: "Random Party",
         minApples: 25, 
         soldiers: 1,
-        bombers: 0
+        bombers: 0,
+        payout: 500
     },
     {
         name: "Winter Party",
         minApples: 50, 
         soldiers: 2, 
-        bombers: 0
+        bombers: 0,
+        payout: 1000
     },
     {
         name: "Super Bowl Party", 
         minApples:  100, 
         soldiers: 6, 
         bombers: 2,
+        payout: 2000
     },
     {
         name: "The Milkin Compound", 
         minApples: 200, 
         soldiers: 6, 
-        bombers: 3
+        bombers: 3, 
+        payout: 10000
     },
     {
         name: "QL's House",
         minApples: 10, 
         soldiers: 1, 
-        bombers: 1
+        bombers: 1, 
+        payout: 16000
     }
 ];
-
-
-//function to buy more workers
-function buyWorker() {
-    if(money >= Math.pow(1.25, workers) * 100) {
-        money -= Math.pow(1.25, workers) * 100;
-        dailyCollection += 2;
-        workers++;
-        buyWorkerButton.innerText = `Bribe Them $(${(Math.pow(1.25, workers) * 100).toFixed(2)})`;
-    } else {
-        buyWorkerWarningText.innerText = "You do not have enough influence (money) to recruit another worker";
-    }
-    
-}
-
-//button to buy more workers
-buyWorkerButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    buyWorker();
-});
-
-
-
-let shedUpgradeCount = 1;   //represents the amount of times that the sheds have been upgraded 
-
-//function to upgrade sheds (ONLY IMPACTS SHEDS THAT HAVE BEEN BUILT, NOT FUTURE ONES)
-function upgradeShed() {
-
-    if(money >= shedUpgradeCost) {
-        money -= shedUpgradeCost;
-        maxShedBags += 6 * sheds;
-        shedUpgradeCount++;
-        shedUpgradeCost = Math.pow(1.25, shedUpgradeCount) * 10000;
-        upgradeShedBtn.innerText = `Upgrade Sheds $(${(shedUpgradeCost).toFixed(2)})`;
-
-    } else {
-        upgradeShedWarningText.innerText = "You do not have enough money to upgrade the sheds";
-    }
-
-}
-
-//button to upgrade the sheds
-upgradeShedBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    upgradeShed();
-})
-
-//increase the amount of soliders available by decreasing the number of workers
-addSoldiers.addEventListener('click', (e) => {
-
-    e.preventDefault();
-    if(workers > 0) {
-        workers--;
-        dailyCollection -= 2;
-        appleSoldiers++;
-        //update solider inner text
-        soldiersCountHTML.innerHTML = `<p id="solider-count"><strong>Apple Soliders:</strong> ${appleSoldiers}</p>`;
-        
-    } else {
-        soldiersConvertWarningText.innerText = "There are no more workers to convert into soliders, go find more workers!";
-    }
-
-});
-
-//decrease amount of soldiers and increase amount of workers
-decSoldiers.addEventListener('click', (e) => {
-
-    e.preventDefault();
-    if(appleSoldiers > 0) {
-        appleSoldiers--;
-        dailyCollection += 2;
-        workers++;
-        soldiersCountHTML.innerHTML = `<p id="solider-count"><strong>Apple Soliders:</strong> ${appleSoldiers}</p>`;
-    } else {
-        soldiersConvertWarningText.innerText = "JAA INTELLIGNCE: 'There are no more soliders.'";
-    }
-
-});
-
-
 
 //name of enemies that destroy sheds
 const opps = [
@@ -327,12 +262,110 @@ function warAppleLoss() {
     }
 }
 
+//function to upgrade sheds (ONLY IMPACTS SHEDS THAT HAVE BEEN BUILT, NOT FUTURE ONES)
+function upgradeShed() {
 
+    if(money >= shedUpgradeCost) {
+        money -= shedUpgradeCost;
+        maxShedBags += 6 * sheds;
+        shedUpgradeCount++;
+        shedUpgradeCost = Math.pow(1.25, shedUpgradeCount) * 10000;
+        upgradeShedBtn.innerText = `Upgrade Sheds $(${(shedUpgradeCost).toFixed(2)})`;
 
+    } else {
+        upgradeShedWarningText.innerText = "You do not have enough money to upgrade the sheds";
+    }
+
+}
+
+function udpateHouseText() {
+    appleCampText.innerHTML =  `
+    
+    <p id="house-info"><strong>Target:</strong> ${houseToApple[currHouse].name}</p>
+    <p><strong>Minimum Apples Required:</strong> ${houseToApple[currHouse].minApples}</p>
+    <p><strong>Minimum Soliders Required:</strong> ${houseToApple[currHouse].soldiers}</p>
+    <p><strong>Payout:</strong> ${houseToApple[currHouse].payout}</p>
+    <p></p>
+    
+    
+    `;
+}
+
+udpateHouseText(); //initial call to update text can only be called again after winning a campaign
+
+//conduct an apple campaign 
+function appleCamp() {
+
+    if(appleSoldiers >= houseToApple[currHouse].soldiers && warApples >= houseToApple[currHouse].minApples) {
+
+        const thisAppleCountDouble = houseToApple[currHouse].minApples * 2;
+        const frac = warApples/thisAppleCountDouble;
+        const applesUsed = Math.floor(Math.random() * warApples + minApples);
+        const thisPayout = houseToApple[currHouse].payout;
+    
+
+        //win scenario
+   
+        if(frac > 1) {  //if you have more apples than double the minimum you automatically win 
+    
+            money += thisPayout;
+            
+            appleCampResults.innerText = `Summary:\nResult: SUCCESS \nApples Used: ${applesUsed}\nPaid Amount: ${thisPayout}`;
+
+            warApples -= applesUsed;
+            if(warApples < 0) {
+                warApples = 0;
+            }
+            currHouse++;
+            udpateHouseText();
+
+        
+        } else if (Math.random() + frac >= 1.35) { //if you have more than the min but not enough completley random chance of winning
+        
+            money += thisPayout;
+            
+            appleCampResults.innerText = `Summary:\nResult: SUCCESS \nApples Used: ${applesUsed}\nPaid Amount: ${thisPayout}`;
+
+            warApples -= applesUsed;
+            if(warApples < 0) {
+                warApples = 0;
+            }
+            currHouse++;
+            udpateHouseText();
+
+        } else { //lose scenario 
+        
+            apples -= applesUsed;
+            appleCampResults.innerText = `Summary:\nResult: FAILED \nApples Used: ${applesUsed}`;
+
+        }
+
+    } else if(appleSoldiers < houseToApple[currHouse].soldiers) {
+        appleCampResults.innerText = `You do not have enough soliders to send a convoy, add more`;
+    } else if(warApples < houseToApple[currHouse].minApples) {
+        appleCampResults.innerText = `You do not have enough apples to go on a convoy, go recover trashbags`;
+    } else {
+        appleCampResults.innerText = `You have absolutely nothing to send`; 
+    }
+
+}
+
+//function to buy more workers
+function buyWorker() {
+    if(money >= Math.pow(1.25, workers) * 100) {
+        money -= Math.pow(1.25, workers) * 100;
+        dailyCollection += 2;
+        workers++;
+        buyWorkerButton.innerText = `Bribe Them $(${(Math.pow(1.25, workers) * 100).toFixed(2)})`;
+    } else {
+        buyWorkerWarningText.innerText = "You do not have enough influence (money) to recruit another worker";
+    }
+    
+}
 
 //updates the text at the very top of the page based on how many workers ther are 
 function updateScenario() {
-    if(workers === 2) {
+    if(workers <= 2) {
         scenario.innerText = "You and your friend start stealing apples from your school cafeteria...";
     } else if(workers > 2 && workers < 10) {
         scenario.innerText =  "Your other friends decide to help you collect apples too...";
@@ -355,13 +388,22 @@ function ticker() {
     totalApples = apples + forestBags * 200 + shedBags * 200 + trashbagApples + trashbags * 200;
     dailyCollection = workers * 2;
 
+    
+
    // totalApples += dailyCollection;
     //update HTML elements
+    
     updateInventory();
     updateTransfer();
     
-    
 }
+
+//update text for the top two sections of the page (ivnentory and transfer) NOT USED
+function inventoryTransferTextUpdate() {
+    updateInventory();
+    updateTransfer();
+}
+
 //updates text for specific portions or longer timed event
 function textTicker() {
     updateBlackMarket();
@@ -375,7 +417,7 @@ function updateInventory() {
     inventory.innerHTML = `
         <h2><strong>Apples & Workers</strong></h2>
         <p class="apple-info"><strong>Current Apple Count:</strong> ${apples}</p>
-        <p id="total-apples"><strong>Total [Estimated] Apples:</strong> ${totalApples}</p>
+        <p id="total-apples"><strong>Total (Estimated) Apples:</strong> ${totalApples}</p>
          <p id="JAA-fund"><strong>Laundered Money:</strong> $${money.toFixed(2)}</p>
         <p id="apple-workers"><strong>Workers:</strong> ${workers}</p>
         <p class="daily-apples"><strong>Daily Collection:</strong> ${dailyCollection} Apples</p>
@@ -690,7 +732,6 @@ tutorialButton.addEventListener('click', (e) => {
 
 });
 
-
 //upgrade vehicle (or trashbags that can be held at once)
 buyVehicleBtn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -701,7 +742,85 @@ buyVehicleBtn.addEventListener('click', (e) => {
     
 });
 
+//button to buy more workers
+buyWorkerButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    buyWorker();
+});
 
+
+//button to upgrade the sheds
+upgradeShedBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    upgradeShed();
+})
+
+//increase the amount of soliders available by decreasing the number of workers
+addSoldiers.addEventListener('click', (e) => {
+
+    e.preventDefault();
+    if(workers > 0) {
+        workers--;
+        dailyCollection -= 2;
+        appleSoldiers++;
+        //update solider inner text
+        soldiersCountHTML.innerHTML = `<p id="solider-count"><strong>Apple Soldiers:</strong> ${appleSoldiers}</p>`;
+        
+    } else {
+        soldiersConvertWarningText.innerText = "There are no more workers to convert into soldiers, go find more workers!";
+    }
+
+});
+
+//decrease amount of soldiers and increase amount of workers
+decSoldiers.addEventListener('click', (e) => {
+
+    e.preventDefault();
+    if(appleSoldiers > 0) {
+        appleSoldiers--;
+        dailyCollection += 2;
+        workers++;
+        soldiersCountHTML.innerHTML = `<p id="solider-count"><strong>Apple Soliders:</strong> ${appleSoldiers}</p>`;
+    } else {
+        soldiersConvertWarningText.innerText = "There are no more soldiers.";
+    }
+
+});
+
+
+
+//calls apple camp function to send campaign for apples
+appleCampBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    appleCamp();
+
+});
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAVES~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+let thisSaveSerialized = JSON.stringify(thisSave);
+
+let thisSaveDeserialized = JSON.parse(localStorage.getItem("save"));
+
+saveBtn.addEventListener('click', (e) => {
+
+        e.preventDefault();
+        
+        localStorage.setItem("save", JSON.stringify(thisSave));  
+        
+        
+
+});
+
+loadSaveBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    apples = thisSaveDeserialized.applesSave;
+    trashbags = thisSaveDeserialized.trashbagSave;
+    
+
+});
 
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~WINDOW INTERVALS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -711,9 +830,18 @@ window.setInterval(forestAppleLoss, 1000);          //1 second tick to make stor
 window.setInterval(shedAppleLoss, 10000);           //10 second tick to change shed loss of apples slower
 
 //tickers for text updates
-window.setInterval(ticker, 1);                      //1ms tick for testing purposes set to one when done 
+window.setInterval(ticker, 1000);                      //1ms tick for testing purposes set to one when done 
 window.setInterval(textTicker, 10000);              //i forgo what this does
+//window.setInterval(inventoryTransferTextUpdate, 1);     //inventory and transfer page infromation text update
 
 window.setInterval(warAppleLoss, 500);              //updates the amount of apples being lost in wartime storage when converted
 
+//notes ------------------------------------------------------------------------
+/*
+
+const startGame = () => {
+  canvas.style.display = 'block';
+  startScreen.style.display = 'none';
+}
+*/
 

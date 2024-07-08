@@ -9,23 +9,6 @@
     </head>
 
     <body>
-        
-        <!--
-
-            (have different places where you can store the apples, where one location has a higher chance of losing apples than others)
-
-            collect apples -> 1st/2nd lunches -> count number of people helping -> collect those apples to the extent that the backpacks can store them -> recruit people and maybe other schools to collect apples for you
-
-            create system to determine the number of apples that can be collected and maximum storage that can held at the school 
-
-            collect apples on weekdays -> apple houses on weekends
-
-            (create timing system)
-
-            if collecting too many apples -> get caught and reset apple count with a permanent nerf
-
-     
-        -->
 
         <div class="container">
 
@@ -36,8 +19,10 @@
             <p id="scenario">You and your friend start stealing apples from your school cafeteria...</p>
 
 
-
+            <button type="button" id="save">Save</button>
+            <button type="button" id="load-save">Load Save</button>
             <button type="button" id="info-btn">Help</button>
+            
             <div id="tutorial"  style="display: none">
 
             </div>
@@ -47,7 +32,7 @@
             <div id="apple-inventory">
                 <h2><strong>Apples & Workers</strong></h2>
                 <p id="apple-info"><strong>Current Apple Count:</strong> 0</p>
-                <p id="total-apples"><strong>Total [Estimated] Apples:</strong> 0</p>
+                <p id="total-apples"><strong>Total (Estimated) Apples:</strong> 0</p>
                 <p id="JAA-fund"><strong>Laundered Money:</strong> 0</p>
                 <p id="apple-workers"><strong>Workers:</strong> 2</p>
                 <p id="daily-apples"><strong>Daily Collection:</strong> 4 Apples</p>
@@ -56,7 +41,7 @@
 
             <p><strong>Recruit More Workers: </strong></p>
             <button id="bribe-worker">Bribe Them ($156.25)</button>
-            <p class="warning" id="bribe-worker-warning"></p>
+            <p class="warning fade-out" id="bribe-worker-warning"></p>
             
   
 
@@ -76,7 +61,7 @@
                 </div>
 
                 <p><strong>Put Apples into Trashbags:</strong></p>
-                <p><strong>Note:</strong> Spam clicking will result in negative apples as a cooldown/penalty</p>
+                <p><strong>Note:</strong> Do not spam click as it will result in negative apples, time your transfers carefully</p>
                 <button id="transfer-to-trashbag">Discreetly shove them into trashbags</button>
                 <p id="transfer-warning" class="warning"></p>
                 <p><strong>Move trashbags offiste:</strong></p>
@@ -100,14 +85,15 @@
             <div id="appling">
                 <h2><strong>Apple Command Operations</strong></h2>
 
-                <p><strong>Minimum Apples Needed For Campaign:</strong> 0</p>
-                <p><strong>House to Apple:</strong> (Insert HERE)</p>
+               
+                <p id="house-info"><strong>Target:</strong></p>
+               
                 
                 
                 <div id="artillery"></div>
                 <p><strong>Current Strength:</strong></p>
                 <p id="war-apples"><strong>Ammunition: </strong> 0 Apples</p>
-                <p><strong>Apple Bombers: </strong> 1 Vehicle</p>
+                <!-- <p><strong>Apple Bombers: </strong> 1 Vehicle</p>              use this? -->
                 <p id="solider-count"><strong>Apple Soliders:</strong> 0</p>
                 <p id="bribe-soldier-cost"><strong>Allocate Soliders:</strong></p>
                 <button id="worker-solider" type="button">Convert Worker To Solider</button>
@@ -123,7 +109,8 @@
                 <p id="shed-loss" class="warning"></p>
                 <p><strong>Note:</strong> Recovered Apples will be less than the amount originally collected</p>
                 <p><strong>Send Convoy:</strong></p>
-                <button>Conduct Appling Campaign</button>
+                <button id="campaign" type="button">Conduct Appling Campaign</button>
+                <p id="campaign-result" class="warning"></p>
             </div>
 
 
@@ -149,5 +136,6 @@
     <footer>
         <p>Unfortunately based on a real story</p>
         <p>RIP JAA (11/2021-4/2022)</p>
+
     </footer>
 </html>
