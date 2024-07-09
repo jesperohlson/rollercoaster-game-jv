@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <!-- add bootstrap/fontawesome instead of using css directly -->
-        <title>Jenks Apple Association Online Game</title>
+        <title>Jenks Apple Association: The Game</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="jaaStyle.css"/>
@@ -18,15 +18,18 @@
 
             <div id="subheader">
 
-            <p id="scenario">You and your friend start stealing apples from your school cafeteria...</p>
+           
+                <p id="scenario"></p>
 
             <div class="top-btns">
+            
             <button class="subheader-btns" type="button" id="save">Save</button>
-            <button class="subheader-btns" type="button" id="load-save">Load Save</button>
+            <!--<button class="subheader-btns" type="button" id="load-save">Load Save</button> doesn't have to be used anymore-->
             <button class="subheader-btns" type="button" id="info-btn">Help</button>
             <button class="subheader-btns" type="button" id="reset-first">Reset Progress?</button>
-            <button class="subheader-btns" type="button" id="reset-second" style="display: none">Reset (THIS WILL DELETE THE CURRENT SAVE)</button>
+            <button class="subheader-btns" type="button" id="reset-second" style="display: none">Reset (Refresh After)</button>
             </div>
+            
             </div>
             
             <div id="tutorial"  style="display: none">
@@ -34,6 +37,7 @@
             </div>
 
            
+            <div id="top-section">
        
             <div id="apple-inventory">
                 <h2><strong>Apples & Workers</strong></h2>
@@ -45,11 +49,11 @@
          
             </div>
 
-            <p><strong>Recruit More Workers: </strong> Each addtional worker increases backpack capacity by 60</p>
+            <p><strong>Recruit More Workers: </strong> Each addtional worker results in +2 daily collection and +60 backpack storage size</p>
             <button id="bribe-worker">Bribe Them ($156.25)</button>
-            <p class="warning fade-out" id="bribe-worker-warning"></p>
+            <p class="warning" id="bribe-worker-warning"></p>
             
-  
+            </div>
 
       
             <div id="transfer">
@@ -82,7 +86,7 @@
                 <button type="button" id="upgrade-shed-button">Upgrade Sheds ($12500)</button>
                 <p id="upgrade-warning" class="warning"></p>
                 <p><strong>Upgrade Trashbag Storage</strong></p>
-                <button id="upgrade-vehicle">Upgrade Apple Transport Vehicle ($5000)</button>
+                <button id="upgrade-vehicle">Upgrade Apple Transport Vehicle ($2500)</button>
                 <p id="buy-vehicle-warning" class="warning"></p>
 
             </div>
@@ -100,23 +104,24 @@
                 <p><strong>Current Strength:</strong></p>
                 <p id="war-apples"><strong>Ammunition: </strong> 0 Apples</p>
                 <!-- <p><strong>Apple Bombers: </strong> 1 Vehicle</p>              use this? -->
-                <p id="solider-count"><strong>Apple Soliders:</strong> 0</p>
-                <p id="bribe-soldier-cost"><strong>Allocate Soliders:</strong></p>
+                <p id="solider-count"><strong>Apple Soldiers:</strong> 0</p>
+                <p id="bribe-soldier-cost"><strong>Allocate Soldiers:</strong></p>
                 <button id="worker-solider" type="button">Add Soldiers ( - workers )</button>
                 <button id="solider-worker" type="button">Decrease Soldiers ( + workers)</button>
                 <p class="warning" id="bribe-solder-warning"></p>
                 <p><strong>Success Chance: </strong> 0%</p>
                 <p><strong>Recover Apples:</strong></p>
                 <p><strong>Warning: </strong>Recovered apples will decay extremely fast -- only recover if you are sure you have enough apples for battle</p>
-                <button id="recover-forest">Attempt Forest Trashbag Recoveries</button>
-                <button id="recover-shed">Recover Trashbags From Sheds</button>
+                <p><strong>Note:</strong> Remember your apples have decayed or been lost, so expect less apples than originally collected</p>
+                <button id="recover-forest">Recover FOREST trashbags</button>
+                <button id="recover-shed">Recover SHED trashbags</button>
                 
                 <p id="recovered-apples" class="warning"></p>
                 <p id="shed-loss" class="warning"></p>
-                <p><strong>Note:</strong> Recovered Apples will be less than the amount originally collected</p>
-                <p><strong>Send Convoy:</strong></p>
-                <button id="campaign" type="button">Conduct Appling Campaign</button>
-                <p id="campaign-result" class="warning"></p>
+                
+                <p><strong>Launch Attack:</strong></p>
+                <button id="campaign" type="button">Send Convoy and Conduct Appling Campaign</button>
+                <p id="campaign-result" class="warning fade-out"></p>
             </div>
 
 
@@ -124,12 +129,14 @@
             <div id="black-market">
                 <h2>Black Market: Export Stolen Apples for Cash</h2>
                 <p  id="market-rate"><strong>Global Apple Rate:</strong> [UNKNOWN] per apple</p>
-            </div>
-                <p id="market-warning" class="warning"></p>
+            
+                
                 <button type="button" id="sell-1">Sell 1 Trashbag</button>
                 <button type="button" id="sell-10">Sell 10 Trashbags</button>
                 <button type="button" id="sell-25">Sell 25 Trashbags</button>
                 <button type="button" id="sell-100">Sell 100 Trashbags</button>
+            </div>
+                <p id="market-warning" class="warning"></p>
             </div>
 
         </div>

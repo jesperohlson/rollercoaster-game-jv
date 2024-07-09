@@ -1,5 +1,7 @@
 //javascript code for the apple game -- notes at bottom
 
+
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DOM VARIABLES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //top section 
@@ -117,6 +119,43 @@ let currHouse = 0;                              //current house in house to appl
 
 
 
+let thisSaveDeserialized = JSON.parse(localStorage.getItem("save"));    //save key parse if game was previously saved 
+
+//retrieve save if it already exists 
+if(thisSaveDeserialized != null) {
+apples = thisSaveDeserialized.applesSave;
+money = thisSaveDeserialized.moneySave;
+trashbags = thisSaveDeserialized.trashbagsSave;
+workers = thisSaveDeserialized.workersSave;
+sheds = thisSaveDeserialized.shedSave;
+shedCost = thisSaveDeserialized.shedCostSave;
+shedBags = thisSaveDeserialized.shedBagsSave;
+maxShedBags = thisSaveDeserialized.maxShedBagsSave;
+shedUpgradeCost = thisSaveDeserialized.shedUpgradeCostSave;
+backpackApples = thisSaveDeserialized.backpackApplesSave;
+trashbagApples = thisSaveDeserialized.trashbagApplesSave;
+forestBags = thisSaveDeserialized.forestBagsSave;
+appleSoldiers = thisSaveDeserialized.appleSoliderSave;
+backPackStorageSize = thisSaveDeserialized.backPackStorageSizeSave;
+trashBagStorageSize = thisSaveDeserialized.trashbagStorageSizeSave;
+maxTrashbags = thisSaveDeserialized.maxTrashbagsSave;
+totalApples = thisSaveDeserialized.totalApplesSave;
+forestBagArr = thisSaveDeserialized.forestBagArrSave;
+shedBagArr = thisSaveDeserialized.shedBagArrSave;
+nextAvailVehicle = thisSaveDeserialized.nextAvailVehicleSave;
+shedUpgradeCost = thisSaveDeserialized.shedUpgradeCostSave;
+currHouse = thisSaveDeserialized.currHouseSave;
+}
+
+//give fade out animation to the warning messages bc css is doggy
+const warningFadeOutText = (el, msg) => {
+    el.style.display = 'block';
+    el.innerText = msg;
+    el.style.animation = 'fade-out 15s 1';
+    setTimeout(() => {
+        el.style.display = 'none';
+    }, 14985);
+}//warningFadeOutText
 
 //tutorial information for the user put it here instead of HTML file cuz
 tutorialInformation.innerHTML =  `
@@ -147,9 +186,16 @@ tutorialInformation.innerHTML =  `
 
 `;
 
+//update soldier count
+soldiersCountHTML.innerHTML = `<p id="solider-count"><strong>Apple Soldiers:</strong> ${appleSoldiers}</p>`;
 
 //represents new vehicle that can be purchsed to hold more trashbags at once
 const vehicles = [
+    {
+        name: "tiny sedan",
+        maxBags: 4,
+        cost: 2500
+    },
     {
         name: "small SUV",
         maxBags: 6,
@@ -272,7 +318,7 @@ function upgradeShed() {
         upgradeShedBtn.innerText = `Upgrade Sheds $(${(shedUpgradeCost).toFixed(2)})`;
 
     } else {
-        upgradeShedWarningText.innerText = "You do not have enough money to upgrade the sheds";
+        warningFadeOutText(upgradeShedWarningText, "You need more money to upgrade these sheds!");
     }
 
 }
@@ -309,7 +355,7 @@ function appleCamp() {
     
             money += thisPayout;
             
-            appleCampResults.innerText = `Summary:\nResult: SUCCESS \nApples Used: ${applesUsed}\nCoasterOffice Paid the JAA $${thisPayout} for the hit`;
+            warningFadeOutText(appleCampResults, `Summary:\nResult: SUCCESS \nApples Used: ${applesUsed}\nCoasterOffice Paid the JAA $${thisPayout} for the hit`);
 
             warApples -= applesUsed;
             if(warApples < 0) {
@@ -323,7 +369,7 @@ function appleCamp() {
         
             money += thisPayout;
             
-            appleCampResults.innerText = `Summary:\nResult: SUCCESS \nApples Used: ${applesUsed}\nCoasterOffice Paid the JAA $${thisPayout} for the hit`;
+            warningFadeOutText(appleCampResults, `Summary:\nResult: SUCCESS \nApples Used: ${applesUsed}\nCoasterOffice Paid the JAA $${thisPayout} for the hit`);
 
             warApples -= applesUsed;
             if(warApples < 0) {
@@ -335,19 +381,21 @@ function appleCamp() {
         } else { //lose scenario 
         
             apples -= applesUsed;
-            appleCampResults.innerText = `Summary:\nResult: FAILED \nApples Used: ${applesUsed}\nCoasterOffice Executives are threatning you...`;
+            warningFadeOutText(appleCampResults, `Summary:\nResult: FAILED \nApples Used: ${applesUsed}\nCoasterOffice Executives are threatning you...`);
 
         }
 
     } else if(appleSoldiers < houseToApple[currHouse].soldiers) {
-        appleCampResults.innerText = `You do not have enough soliders to send a convoy, add more`;
+        warningFadeOutText(appleCampResults, `You need to allocate more soliders to send a convoy!`);
     } else if(warApples < houseToApple[currHouse].minApples) {
-        appleCampResults.innerText = `You do not have enough apples to go on a convoy, go recover trashbags`;
+        warningFadeOutText(appleCampResults,  `You need more apples to go on a convoy, go recover some trashbags`);
     } else {
-        appleCampResults.innerText = `You have absolutely nothing to send`; 
+        warningFadeOutText(appleCampResults, `You need to prepare better, you must be very underprepared if you see this message`);
     }
 
 }
+
+
 
 //function to buy bribe more workers
 function buyWorker() {
@@ -358,10 +406,9 @@ function buyWorker() {
         backPackStorageSize += 60;
         buyWorkerButton.innerText = `Bribe Them ($${(Math.pow(1.25, workers) * 100).toFixed(2)})`;
     } else {
-        buyWorkerWarningText.innerText = "You do not have enough influence (money) to recruit another worker";
+        warningFadeOutText(buyWorkerWarningText, "You do not have enough influence (money) to recruit another worker");
     }
-    
-}
+}//buyWorker
 
 //updates the text at the very top of the page based on how many workers ther are 
 function updateScenario() {
@@ -402,18 +449,25 @@ function ticker() {
 function inventoryTransferTextUpdate() {
     updateInventory();
     updateTransfer();
+    
 }
 
 //updates text for specific portions or longer timed event
 function textTicker() {
     updateBlackMarket();
-    updateScenario();
+    
     //shedDestruction();
 }
+
+function scnearioTicker() {
+    updateScenario();
+}
+
 
 
 //update top portion of HTML
 function updateInventory() {
+   
     inventory.innerHTML = `
         <h2><strong>Apples & Workers</strong></h2>
         <p class="apple-info"><strong>Current Apple Count:</strong> ${apples}</p>
@@ -443,6 +497,10 @@ function updateBlackMarket() {
     
     <h2>Black Market: Export Stolen Apples for Cash</h2>
     <p><strong>Global Apple Rate:</strong> $${sellAppleRate} per apple</p>
+    <button type="button" id="sell-1">Sell 1 Trashbag ($${(1 * sellAppleRate  * 200).toFixed(2)})</button>
+    <button type="button" id="sell-10">Sell 10 Trashbags ($${(10 * sellAppleRate  * 200).toFixed(2)})</button>
+    <button type="button" id="sell-25">Sell 25 Trashbags ($${(25 * sellAppleRate  * 200).toFixed(2)})</button>
+    <button type="button" id="sell-100">Sell 100 Trashbags ($${(100 * sellAppleRate  * 200).toFixed(2)})</button>
 
     `;
 }
@@ -464,7 +522,7 @@ function transferToBag() {
             trashbags++;
             trashbagApples -= 200;
             } else {
-                transferWarningText.innerText = "Pierre's car cannot hold anymore trashbags, move the other bags offsite!";
+                warningFadeOutText(transferWarningText, "Pierre's car cannot hold anymore trashbags, move the bags offsite!");
             }
         } 
     } 
@@ -483,7 +541,7 @@ function moveTrashbags(destination) {
         trashbags--;
         shedBagArr.push(1);
         } else {
-            offsiteMovementWarningText.innerText = "The shed cannot store anymore apples! Put the bags in the forest."
+            warningFadeOutText(offsiteMovementWarningText, "The shed cannot store anymore apples! Put the other trashbags in the forest!")
         }
     }
 
@@ -495,20 +553,20 @@ function moveTrashbags(destination) {
 
 //TODO: fix bug can buy the last vehicle twice check comparison statement on first if statement doesnt afftec money or anything might have to be with button display issues
 function upgradeVehicle() {
-    if(nextAvailVehicle < vehicles.length) {
+    if(nextAvailVehicle <= vehicles.length - 1) {
         if(money >= vehicles[nextAvailVehicle].cost) {
             maxTrashbags = vehicles[nextAvailVehicle].maxBags;
             money -= vehicles[nextAvailVehicle].cost;
-            buyVehicleWarningText.innerText = "Pierre purchased a " + vehicles[nextAvailVehicle].name + " which can now hold up to " + vehicles[nextAvailVehicle].maxBags + " trashbags at once";
+            warningFadeOutText(buyVehicleWarningText, "Pierre purchased a " + vehicles[nextAvailVehicle].name + " which can now hold up to " + vehicles[nextAvailVehicle].maxBags + " trashbags at once");
             nextAvailVehicle++;
             buyVehicleBtn.innerText =  `Upgrade Apple Transport Vehicle ($${vehicles[nextAvailVehicle].cost})`;
            
         } else {
-            buyVehicleWarningText.innerText = "You do not have enough money to purchase a larger vehicle";
+            warningFadeOutText(buyVehicleWarningText, "You do not have enough money to purcahse a larger vehicle");
         }
     } else {
-        buyVehicleWarningText.innerText = "There is nothing larger to purchase";
         buyVehicleBtn.style.display = "none";
+        buyVehicleWarningText.innerText = "CoasterOffice said we couldn't buy anything larger";
     }  
     
 }
@@ -533,12 +591,17 @@ function appleBlackMarketRate() {
 function sellApples(amt) {
     marketWarning.innerText = "";
     if(trashbags >= amt && trashbags > 0) {
+        //dont use fade out text because prices update faster than fade out animation 
+        marketWarning.style.display = 'block';
         money += amt * sellAppleRate * 200;
         trashbags -= amt;
-        marketWarning.innerText = `Da Ro The Exporter Says: "Your apples were sold for $${(amt * sellAppleRate * 200).toFixed(2)}, take the money and run."'`;
+        marketWarning.innerText = `Da Ro Says: Your apples were sold for $${(amt * sellAppleRate * 200).toFixed(2)}, take the money and run`;
+        setTimeout(() => {
+            marketWarning.style.display = 'none';
+        },5000)
 
     } else {
-        marketWarning.innerText = 'Da Ro The Exporter Says: "You got no bags boy"';
+        warningFadeOutText(marketWarning, 'Da Ro Says: You got no bags boy...')
     }
 }//sellApples
 
@@ -615,7 +678,7 @@ transToBagsBtn.addEventListener('click', (e) => {
         transferToBag();
         
     } else {
-        transferWarningText.innerText = "There are not enough apples to transfer! Wait for backpack apples to be replenished.";
+        warningFadeOutText(transferWarningText, "There are not enoguh apples to transfer! Wait for the backpack apples to be refilled again.");
     }
 
     if(backpackApples < 0) {
@@ -632,7 +695,7 @@ moveTrashbagsToForest.addEventListener('click', (e) => {
         moveTrashbags("forest");
    
     } else {
-        offsiteMovementWarningText.innerText = "There are no trashbags to move!"
+        warningFadeOutText(offsiteMovementWarningText, "There are no trashbags to move!");
     }
         
     
@@ -645,7 +708,7 @@ moveTrashbagsToShed.addEventListener('click', (e) => {
         moveTrashbags("shed");
       
     } else {
-        offsiteMovementWarningText.innerText = "There are no trashbags to move!"
+        warningFadeOutText(offsiteMovementWarningText, "There are no trashbags to move!")
     }
         
     
@@ -687,10 +750,10 @@ buyShedBtn.addEventListener('click', (e) => {
     e.preventDefault(); 
     buyShedWarningText.innerText = "";
     if(money < shedCost) {
-        buyShedWarningText.innerText = "You do not have enough money to buy another shed!"
+        warningFadeOutText(buyShedWarningText, "You do not have enough money to buy another shed!");
     } else {
         buyShed();
-        buyShedWarningText.innerText = "Shed has been purchased and illegally built..."
+        warningFadeOutText(buyShedWarningText, "Shed built on somebody's land successfully.")
     }
 });
 
@@ -700,9 +763,9 @@ forestAppleRecoverBtn.addEventListener('click', (e) => {
     recoveredApplesText.innerText = "";
     if(forestBagArr.length > 0) {
         recoverForestApples(forestBagArr);
-        recoveredApplesText.innerText = `JAA Recovery Team Report:\nType: Forest Apples\nApples Recovered: ${recoveredAppleCount}\nTrasbags Recovered: ${bagRecoveredCount}\nEstimated Apples Lost: ${estAppleLoss}`;
+        warningFadeOutText(recoveredApplesText, `JAA Recovery Team Report:\nType: Forest Apples\nApples Recovered: ${recoveredAppleCount}\nTrasbags Recovered: ${bagRecoveredCount}\nEstimated Apples Lost: ${estAppleLoss}\nStatus: GO APPLE TARGET`);
     } else {
-        recoveredApplesText.innerText = "JAA Apple Recovery Team: There are no bags to recover!";
+        warningFadeOutText(recoveredApplesText, "JAA Apple Recovery Team: There are no bags to recover!");
     }
     warTimeApplesText.innerHTML =  `<p id="war-apples"><strong>Ammunition:</strong> ${warApples} Apples</p>`
 });
@@ -713,9 +776,9 @@ shedAppleRecoverBtn.addEventListener('click', (e) => {
     recoveredApplesText.innerText = ""
     if(shedBagArr.length > 0) {
         recoverShedApples(shedBagArr);
-        recoveredApplesText.innerText = `JAA Recovery Team Report:\nType: Shed Apples\nApples Recovered: ${recoveredAppleCount}\nTrasbags Recovered: ${bagRecoveredCount}\nEstimated Apples Lost: ${estAppleLoss}`;
+        warningFadeOutText(recoveredApplesText, `JAA Recovery Team Report:\nType: Shed Apples\nApples Recovered: ${recoveredAppleCount}\nTrasbags Recovered: ${bagRecoveredCount}\nEstimated Apples Lost: ${estAppleLoss}\nStatus: GO APPLE TARGET`);
     } else {
-        recoveredApplesText.innerText = "JAA Apple Recovery Team: There are no bags to recover!";
+        warningFadeOutText(recoveredApplesText, "JAA Apple Recovery Team: There are no bags to recover!");
     }
      warTimeApplesText.innerHTML =  `<p id="war-apples"><strong>Ammunition:</strong> ${warApples} Apples</p>`
 });
@@ -756,7 +819,8 @@ resetBtn.addEventListener('click', (e) => {
 //upgrade vehicle (or trashbags that can be held at once)
 buyVehicleBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    if(nextAvailVehicle == vehicles.length) {
+    if(nextAvailVehicle >= vehicles.length - 1) {
+        warningFadeOutText(buyVehicleWarningText, "CoasterOffice said we can't buy anything larger");
         buyVehicleBtn.style.display = "none";
     }
     upgradeVehicle();
@@ -788,7 +852,7 @@ addSoldiers.addEventListener('click', (e) => {
         soldiersCountHTML.innerHTML = `<p id="solider-count"><strong>Apple Soldiers:</strong> ${appleSoldiers}</p>`;
         
     } else {
-        soldiersConvertWarningText.innerText = "There are no more workers!";
+        warningFadeOutText(soldiersConvertWarningText, "There are no more workers to convert!");
     }
 
 });
@@ -803,7 +867,7 @@ decSoldiers.addEventListener('click', (e) => {
         workers++;
         soldiersCountHTML.innerHTML = `<p id="solider-count"><strong>Apple Soldiers:</strong> ${appleSoldiers}</p>`;
     } else {
-        soldiersConvertWarningText.innerText = "There are no more soldierss";
+        warningFadeOutText(soldiersConvertWarningText,"There are no more soldiers to convert!");
     }
 
 });
@@ -819,7 +883,7 @@ appleCampBtn.addEventListener('click', (e) => {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAVES/LOCAL STORAGE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`~`~~~~~~~~~~~~~~~~~~~~~
 
-let thisSaveDeserialized = JSON.parse(localStorage.getItem("save"));
+//let thisSaveDeserialized = JSON.parse(localStorage.getItem("save"));
 
 //save button stores all user data onto local storage can be overriden
 saveBtn.addEventListener('click', (e) => {
@@ -857,35 +921,9 @@ saveBtn.addEventListener('click', (e) => {
         
 });
 
-//load save from original save 
-loadSaveBtn.addEventListener('click', (e) => {
 
-    e.preventDefault();//wtf does this do 
 
-    apples = thisSaveDeserialized.applesSave;
-    money = thisSaveDeserialized.moneySave;
-    trashbags = thisSaveDeserialized.trashbagsSave;
-    workers = thisSaveDeserialized.workersSave;
-    sheds = thisSaveDeserialized.shedSave;
-    shedCost = thisSaveDeserialized.shedCostSave;
-    shedBags = thisSaveDeserialized.shedBagsSave;
-    maxShedBags = thisSaveDeserialized.maxShedBagsSave;
-    shedUpgradeCost = thisSaveDeserialized.shedUpgradeCostSave;
-    backpackApples = thisSaveDeserialized.backpackApplesSave;
-    trashbagApples = thisSaveDeserialized.trashbagApplesSave;
-    forestBags = thisSaveDeserialized.forestBagsSave;
-    appleSoldiers = thisSaveDeserialized.appleSoliderSave;
-    backPackStorageSize = thisSaveDeserialized.backPackStorageSizeSave;
-    trashBagStorageSize = thisSaveDeserialized.trashbagStorageSizeSave;
-    maxTrashbags = thisSaveDeserialized.maxTrashbagsSave;
-    totalApples = thisSaveDeserialized.totalApplesSave;
-    forestBagArr = thisSaveDeserialized.forestBagArrSave;
-    shedBagArr = thisSaveDeserialized.shedBagArrSave;
-    nextAvailVehicle = thisSaveDeserialized.nextAvailVehicleSave;
-    shedUpgradeCost = thisSaveDeserialized.shedUpgradeCostSave;
-    currHouse = thisSaveDeserialized.currHouseSave;
-     
-});
+
 
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~WINDOW INTERVALS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -900,6 +938,7 @@ window.setInterval(textTicker, 10000);              //i forgo what this does
 //window.setInterval(inventoryTransferTextUpdate, 1);     //inventory and transfer page infromation text update
 
 window.setInterval(warAppleLoss, 500);              //updates the amount of apples being lost in wartime storage when converted
+window.setInterval(scnearioTicker, 1);              //update scneario at the top of the page
 
 //notes ------------------------------------------------------------------------
 /*
@@ -914,5 +953,8 @@ const startGame = () => {
 
     3. create some feature where trash bags can be made automically
     5. create feature where you can upgrade trashbag capacity
+
+    allocate workers to create trashbags automically and people who can store the bags themselves rather than doing it yourself
+
 */
 
