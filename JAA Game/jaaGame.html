@@ -16,12 +16,18 @@
                 <h1>Jenks Apple Association: The Simulator</h1>
             </div>
 
+            <div id="subheader">
+
             <p id="scenario">You and your friend start stealing apples from your school cafeteria...</p>
 
-
-            <button type="button" id="save">Save</button>
-            <button type="button" id="load-save">Load Save</button>
-            <button type="button" id="info-btn">Help</button>
+            <div class="top-btns">
+            <button class="subheader-btns" type="button" id="save">Save</button>
+            <button class="subheader-btns" type="button" id="load-save">Load Save</button>
+            <button class="subheader-btns" type="button" id="info-btn">Help</button>
+            <button class="subheader-btns" type="button" id="reset-first">Reset Progress?</button>
+            <button class="subheader-btns" type="button" id="reset-second" style="display: none">Reset (THIS WILL DELETE THE CURRENT SAVE)</button>
+            </div>
+            </div>
             
             <div id="tutorial"  style="display: none">
 
@@ -39,7 +45,7 @@
          
             </div>
 
-            <p><strong>Recruit More Workers: </strong></p>
+            <p><strong>Recruit More Workers: </strong> Each addtional worker increases backpack capacity by 60</p>
             <button id="bribe-worker">Bribe Them ($156.25)</button>
             <p class="warning fade-out" id="bribe-worker-warning"></p>
             
@@ -96,8 +102,8 @@
                 <!-- <p><strong>Apple Bombers: </strong> 1 Vehicle</p>              use this? -->
                 <p id="solider-count"><strong>Apple Soliders:</strong> 0</p>
                 <p id="bribe-soldier-cost"><strong>Allocate Soliders:</strong></p>
-                <button id="worker-solider" type="button">Convert Worker To Solider</button>
-                <button id="solider-worker" type="button">Convert Soldier to Worker</button>
+                <button id="worker-solider" type="button">Add Soldiers ( - workers )</button>
+                <button id="solider-worker" type="button">Decrease Soldiers ( + workers)</button>
                 <p class="warning" id="bribe-solder-warning"></p>
                 <p><strong>Success Chance: </strong> 0%</p>
                 <p><strong>Recover Apples:</strong></p>
@@ -138,4 +144,5 @@
         <p>RIP JAA (11/2021-4/2022)</p>
 
     </footer>
+
 </html>

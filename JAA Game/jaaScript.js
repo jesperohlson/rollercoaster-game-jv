@@ -1,15 +1,4 @@
-//TODO list
-/*
-    1. local storage
-    2. fix or delete random shed destruction
-    3. create some feature where trash bags can be made automically
-    4. create feature where you can uprgade backpack capaicty 
-    5. create feature where you can upgrade trashbag capacity
-*/
-
-
-
-//javascript code for the apple game
+//javascript code for the apple game -- notes at bottom
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DOM VARIABLES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -75,6 +64,8 @@ const buyShedBtn = document.getElementById('buy-shed');                         
 const tutorialButton = document.getElementById('info-btn');                         //tutorial button
 const saveBtn = document.getElementById('save');                                    //save button
 const loadSaveBtn = document.getElementById('load-save');                           //load previous save button
+const resetWarningBtn = document.getElementById('reset-first');                     //reset warning button
+const resetBtn = document.getElementById('reset-second');                           //actual reset button
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CONSTANTS/VARIABLES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -97,10 +88,10 @@ let trashbagApples = 0;                         //amount of apples that are cure
 let forestBags = 0;                             //amount of trashbags that are in the forest
 
 let appleBombers = 1;                           //NOT USED amount of bombers avaiable which represnets the max number of soldiers that you can bring on a campaign 
-let appleSoldiers = 0;                          //NOT USED soldiers that can be used for appling campaign 
-let minApples = 0;                              //NOT USED min apples that are needed to win a campaign
-let successChance = 0;                          //NOT USED  represents chance of winning campaign in percentage value
-let backPackstorageSize = 60;                   //amount of apples that a backpack can store
+let appleSoldiers = 0;                          // soldiers that can be used for appling campaign 
+let minApples = 0;                              //min apples that are needed to win a campaign
+let successChance = 0;                          //NOT USED represents chance of winning campaign in percentage value
+let backPackStorageSize = 60;                   //amount of apples that a backpack can store
 let trashBagStorageSize = 200;                  //amount of apples that a trashbag can store
 let maxTrashbags = 2;                           //maximum number of trashbags that can be held at once and not stored offsite
 let sellAppleRate = appleBlackMarketRate();     //current rate for apples on the black market
@@ -125,68 +116,62 @@ let shedUpgradeCount = 1;                       //represents the amount of times
 let currHouse = 0;                              //current house in house to apple array num
 
 
-let thisSave = {
-
-
-    applesSave: apples,
-    workersSave: workers,
-    currHouseSave: currHouse,
-    shedUpgradeCostSave: shedUpgradeCost,
-    trashbagSave: trashbags,
-    moneySave: money, 
-
-    
-
-}
-
 
 
 //tutorial information for the user put it here instead of HTML file cuz
 tutorialInformation.innerHTML =  `
-    <h2><strong>LeTutorial</strong></h2>
-    <p>There are many factions in this city which assert dominance by using various fruit to destroy buildings and mark their territory</p>
-    <p>You and your friends steal apples from your school in order to show what the supeior fruit is<p>
-    <p>Apple collection is hard though, as stealing apples is very hard to conceal, so each person can only collect two apples in a day</p>
-    <h3><strong>Apple Transfer Information:</strong></h3>
+    <h2><strong> DA Tutorial </strong></h2>
+    <p>Within this city there are multiple factions which run loose unleashing mayhem by attacking with inferior fruit</p>
+    <p>You and your friends under the order of CoasterOffice collect apples from the school cafeteria to meet your quotas under the guise of the Jenks Apple Association<p>
+    <p>You must take out the targets that CoasterOffice has with these apples, under their orders</p>
+    <p>People are suspicious of your plans, which makes collecting apples difficult, so as a result, each person can only collect two apples</p>
+    <h3><strong>How to Transfer Apples Around</strong></h3>
     <p>Apples are automatically stored in backpacks, apples must be then discreetly transfered from the backpacks into trashbags</p>
-    <p>(Trashbags will automatically be created when the trashbags are full)</p>
-    <p>The trashbags must be placed in inconspicuous locations, there are two storage options available: Forests or Sheds.</p>
-    <p>You will lose a random, yet very large amount of apples in the forest in most cases</p>
-    <p>In comparison, very little apples will be lost in sheds because they provide beteter protection</p>
+    <p>When each trashbag reaches it capacity of 200 apples, a new trashbag will automatically be created, however you can only hold onto so many trashbags at once</p>
+    <p>To create more trashbags, current trashbags must be placed in inconspicuous locations, there are two storage options available: Forests or Sheds.</p>
+    <p>You will lose a random, yet very large amount of apples in the forest in most cases, in comparison, very little apples will be lost in sheds because they provide beteter protection</p>
     <h3><strong>Apple Command Information</strong></h3>
-    <p>To conduct an operation with your apples you will need to recover the apples that you have stored</p>
-    <p>As you progress through your targets you will need to get more apples and soliders to assist you</p>
-
+    <p>To conduct an operation with your apples you will need to recover the apples that you have stored either in the forest or in the sheds</p>
+    <p>You can "recruit" more workers into your operation, however you will need to convert some of the workers into soldiers when you are ready to attack</p>
+    <p>Likewise, you need to recover the apples that you have stored offsite to use them in attacks, however these apples will decay quickly so only recover when you are absolutely ready to attack</p>
+    <p>As a reward you will be paid for your efforts</p>
     <h3><strong>Black Market Information</strong></h3>
-    <p>To get cash in this game you will need to sell trashbags of apples on the black market</p>
+    <p>Another way to get cash in this game is by selling unstored trashbags on the black market to be exported to other countries running black markets</p>
+    <p>Prices fluctuate, so find a good price to sell your apples at</p>
     <p><strong>Note:</strong> You can only sell trashbags that have not been stored</p>
+    <h3><strong>Upgrades</strong></h3>
+    <p>You can upgrade vehicles, which allow you to store more trashbags at once</p>
+    <p>You can purhcase sheds which allow more trashbags to be stored in sheds</p>
+    <p>You can also upgrade the capacity of the sheds that you have</p>
+    <p><strong>Note: </strong> future sheds that are built will not be impacted by the upgrade, so time the upgrades carefully<p>
+
 `;
 
 
 //represents new vehicle that can be purchsed to hold more trashbags at once
 const vehicles = [
     {
-        name: "Small SUV",
+        name: "small SUV",
         maxBags: 6,
         cost: 5000
     },
     {
-        name: "Large SUV",
+        name: "large SUV",
         maxBags: 18, 
         cost: 15000
     },
     {
-        name: "Pickup Truck",
+        name: "pickup truck",
         maxBags: 35,
         cost: 25000
     },
     {
-        name: "Box truck",
+        name: "box truck",
         maxBags: 200,
         cost: 75000
     },
     {
-        name: "Semi Truck",
+        name: "semi truck",
         maxBags: 1000, 
         cost: 300000
     }
@@ -229,7 +214,21 @@ const houseToApple = [
         minApples: 10, 
         soldiers: 1, 
         bombers: 1, 
-        payout: 16000
+        payout: 160
+    },
+    {
+        name: "Carrot Citadel",
+        minApples: 1250,
+        soldiers: 10,
+        bombers: null,//delete bomber val for other houses -- they not used 
+        payout: 25000
+    },
+    {
+        name: "CoasterOffice",
+        minApples: 1000000,
+        soldiers: 50,
+        bombers: null,//delete bomber val for other houses -- they not used 
+        payout: 25000000
     }
 ];
 
@@ -284,7 +283,7 @@ function udpateHouseText() {
     <p id="house-info"><strong>Target:</strong> ${houseToApple[currHouse].name}</p>
     <p><strong>Minimum Apples Required:</strong> ${houseToApple[currHouse].minApples}</p>
     <p><strong>Minimum Soliders Required:</strong> ${houseToApple[currHouse].soldiers}</p>
-    <p><strong>Payout:</strong> ${houseToApple[currHouse].payout}</p>
+    <p><strong>Payout:</strong> $${houseToApple[currHouse].payout}</p>
     <p></p>
     
     
@@ -310,7 +309,7 @@ function appleCamp() {
     
             money += thisPayout;
             
-            appleCampResults.innerText = `Summary:\nResult: SUCCESS \nApples Used: ${applesUsed}\nPaid Amount: ${thisPayout}`;
+            appleCampResults.innerText = `Summary:\nResult: SUCCESS \nApples Used: ${applesUsed}\nCoasterOffice Paid the JAA $${thisPayout} for the hit`;
 
             warApples -= applesUsed;
             if(warApples < 0) {
@@ -324,7 +323,7 @@ function appleCamp() {
         
             money += thisPayout;
             
-            appleCampResults.innerText = `Summary:\nResult: SUCCESS \nApples Used: ${applesUsed}\nPaid Amount: ${thisPayout}`;
+            appleCampResults.innerText = `Summary:\nResult: SUCCESS \nApples Used: ${applesUsed}\nCoasterOffice Paid the JAA $${thisPayout} for the hit`;
 
             warApples -= applesUsed;
             if(warApples < 0) {
@@ -336,7 +335,7 @@ function appleCamp() {
         } else { //lose scenario 
         
             apples -= applesUsed;
-            appleCampResults.innerText = `Summary:\nResult: FAILED \nApples Used: ${applesUsed}`;
+            appleCampResults.innerText = `Summary:\nResult: FAILED \nApples Used: ${applesUsed}\nCoasterOffice Executives are threatning you...`;
 
         }
 
@@ -350,13 +349,14 @@ function appleCamp() {
 
 }
 
-//function to buy more workers
+//function to buy bribe more workers
 function buyWorker() {
     if(money >= Math.pow(1.25, workers) * 100) {
         money -= Math.pow(1.25, workers) * 100;
         dailyCollection += 2;
         workers++;
-        buyWorkerButton.innerText = `Bribe Them $(${(Math.pow(1.25, workers) * 100).toFixed(2)})`;
+        backPackStorageSize += 60;
+        buyWorkerButton.innerText = `Bribe Them ($${(Math.pow(1.25, workers) * 100).toFixed(2)})`;
     } else {
         buyWorkerWarningText.innerText = "You do not have enough influence (money) to recruit another worker";
     }
@@ -376,9 +376,9 @@ function updateScenario() {
     }
 }
 
-//main ticker ----------  move apple changes to a new function 
+//main ticker ----------  move apple changes to a new function <-- im not doin that 
 function ticker() {
-    if(apples < backPackstorageSize) {
+    if(apples < backPackStorageSize) {
     apples += dailyCollection;
     backpackApples = apples;
     } else {
@@ -408,7 +408,7 @@ function inventoryTransferTextUpdate() {
 function textTicker() {
     updateBlackMarket();
     updateScenario();
-    shedDestruction();
+    //shedDestruction();
 }
 
 
@@ -428,7 +428,7 @@ function updateInventory() {
 //update numeric portion of transfer page
 function updateTransfer() {
     transferText.innerHTML = `
-        <p><strong>Apples in Backpacks:</strong> ${backpackApples}/60</p>
+        <p><strong>Apples in Backpacks:</strong> ${backpackApples}/${backPackStorageSize}</p>
         <p><strong>Apples in Trashbags:</strong> ${trashbagApples}/200</p>
         <p><strong>Number of Trashbags:</strong> ${trashbags}/${maxTrashbags}</p>
         <p><strong>Trashbags in Forests: </strong> ${forestBags}</p>
@@ -500,8 +500,9 @@ function upgradeVehicle() {
             maxTrashbags = vehicles[nextAvailVehicle].maxBags;
             money -= vehicles[nextAvailVehicle].cost;
             buyVehicleWarningText.innerText = "Pierre purchased a " + vehicles[nextAvailVehicle].name + " which can now hold up to " + vehicles[nextAvailVehicle].maxBags + " trashbags at once";
-            buyVehicleBtn.innerText =  `Upgrade Apple Transport Vehicle ($${vehicles[nextAvailVehicle].cost})`;
             nextAvailVehicle++;
+            buyVehicleBtn.innerText =  `Upgrade Apple Transport Vehicle ($${vehicles[nextAvailVehicle].cost})`;
+           
         } else {
             buyVehicleWarningText.innerText = "You do not have enough money to purchase a larger vehicle";
         }
@@ -511,8 +512,6 @@ function upgradeVehicle() {
     }  
     
 }
-
-
 
 
 //purchase additional sheds
@@ -546,6 +545,7 @@ function sellApples(amt) {
 
 
 //randomly destroys sheds
+//MAY DELETE -- all calls to this function have been removed 
 function shedDestruction() {
     if(sheds != 1) {
         if(Math.random() <= 0.5) {
@@ -604,7 +604,7 @@ function recoverShedApples(arr) {
 
 
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BUTTONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BUTTONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //transfer apples from backpacks to trashbags
 transToBagsBtn.addEventListener('click', (e) => {
@@ -732,6 +732,27 @@ tutorialButton.addEventListener('click', (e) => {
 
 });
 
+//initial reset button, reveals the actual reset button that will clear local storage
+resetWarningBtn.addEventListener('click', (e) => {
+
+    e.preventDefault();
+
+    if(resetBtn.style.display === 'none') {
+        resetBtn.style.display = "block";
+    } else {
+        resetBtn.style.display = 'none';
+    }
+})
+
+//actual reset button that clears the current save on local storage
+resetBtn.addEventListener('click', (e) => {
+
+    e.preventDefault();
+
+    localStorage.clear();
+
+});
+
 //upgrade vehicle (or trashbags that can be held at once)
 buyVehicleBtn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -767,7 +788,7 @@ addSoldiers.addEventListener('click', (e) => {
         soldiersCountHTML.innerHTML = `<p id="solider-count"><strong>Apple Soldiers:</strong> ${appleSoldiers}</p>`;
         
     } else {
-        soldiersConvertWarningText.innerText = "There are no more workers to convert into soldiers, go find more workers!";
+        soldiersConvertWarningText.innerText = "There are no more workers!";
     }
 
 });
@@ -780,9 +801,9 @@ decSoldiers.addEventListener('click', (e) => {
         appleSoldiers--;
         dailyCollection += 2;
         workers++;
-        soldiersCountHTML.innerHTML = `<p id="solider-count"><strong>Apple Soliders:</strong> ${appleSoldiers}</p>`;
+        soldiersCountHTML.innerHTML = `<p id="solider-count"><strong>Apple Soldiers:</strong> ${appleSoldiers}</p>`;
     } else {
-        soldiersConvertWarningText.innerText = "There are no more soldiers.";
+        soldiersConvertWarningText.innerText = "There are no more soldierss";
     }
 
 });
@@ -796,30 +817,74 @@ appleCampBtn.addEventListener('click', (e) => {
 
 });
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAVES~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-let thisSaveSerialized = JSON.stringify(thisSave);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAVES/LOCAL STORAGE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`~`~~~~~~~~~~~~~~~~~~~~~
 
 let thisSaveDeserialized = JSON.parse(localStorage.getItem("save"));
 
+//save button stores all user data onto local storage can be overriden
 saveBtn.addEventListener('click', (e) => {
 
         e.preventDefault();
         
+        let thisSave = {
+
+            applesSave: apples,
+            moneySave: money,
+            trashbagsSave: trashbags,
+            workersSave: workers,
+            shedSave: sheds, 
+            shedCostSave: shedCost, 
+            shedBagsSave: shedBags, 
+            maxShedBagsSave: maxShedBags, 
+            shedUpgradeCostSave: shedUpgradeCost, 
+            backpackApplesSave: backpackApples,
+            trashbagApplesSave: trashbagApples,
+            forestBagsSave: forestBags, 
+            appleSoliderSave: appleSoldiers,
+            backPackStorageSizeSave: backPackStorageSize,
+            trashbagStorageSizeSave: trashBagStorageSize, 
+            maxTrashbagsSave: maxTrashbags, 
+            totalApplesSave: totalApples, 
+            forestBagArrSave: forestBagArr, 
+            shedBagArrSave: shedBagArr, 
+            nextAvailVehicleSave: nextAvailVehicle, 
+            shedUpgradeCountSave: shedUpgradeCost, 
+            currHouseSave: currHouse, //should save the war time index position 
+            
+        }
+
         localStorage.setItem("save", JSON.stringify(thisSave));  
         
-        
-
 });
 
+//load save from original save 
 loadSaveBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    apples = thisSaveDeserialized.applesSave;
-    trashbags = thisSaveDeserialized.trashbagSave;
-    
 
+    e.preventDefault();//wtf does this do 
+
+    apples = thisSaveDeserialized.applesSave;
+    money = thisSaveDeserialized.moneySave;
+    trashbags = thisSaveDeserialized.trashbagsSave;
+    workers = thisSaveDeserialized.workersSave;
+    sheds = thisSaveDeserialized.shedSave;
+    shedCost = thisSaveDeserialized.shedCostSave;
+    shedBags = thisSaveDeserialized.shedBagsSave;
+    maxShedBags = thisSaveDeserialized.maxShedBagsSave;
+    shedUpgradeCost = thisSaveDeserialized.shedUpgradeCostSave;
+    backpackApples = thisSaveDeserialized.backpackApplesSave;
+    trashbagApples = thisSaveDeserialized.trashbagApplesSave;
+    forestBags = thisSaveDeserialized.forestBagsSave;
+    appleSoldiers = thisSaveDeserialized.appleSoliderSave;
+    backPackStorageSize = thisSaveDeserialized.backPackStorageSizeSave;
+    trashBagStorageSize = thisSaveDeserialized.trashbagStorageSizeSave;
+    maxTrashbags = thisSaveDeserialized.maxTrashbagsSave;
+    totalApples = thisSaveDeserialized.totalApplesSave;
+    forestBagArr = thisSaveDeserialized.forestBagArrSave;
+    shedBagArr = thisSaveDeserialized.shedBagArrSave;
+    nextAvailVehicle = thisSaveDeserialized.nextAvailVehicleSave;
+    shedUpgradeCost = thisSaveDeserialized.shedUpgradeCostSave;
+    currHouse = thisSaveDeserialized.currHouseSave;
+     
 });
 
 
@@ -843,5 +908,11 @@ const startGame = () => {
   canvas.style.display = 'block';
   startScreen.style.display = 'none';
 }
+
+        -fix or remove shed destruction function and features 
+
+
+    3. create some feature where trash bags can be made automically
+    5. create feature where you can upgrade trashbag capacity
 */
 
