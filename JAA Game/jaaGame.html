@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- add bootstrap/fontawesome instead of using css directly -->
+
         <title>Jenks Apple Association: The Game</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,7 +22,6 @@
                 <p id="scenario"></p>
 
             <div class="top-btns">
-            
             <button class="subheader-btns" type="button" id="save">Save</button>
             <!--<button class="subheader-btns" type="button" id="load-save">Load Save</button> doesn't have to be used anymore-->
             <button class="subheader-btns" type="button" id="info-btn">Help</button>
@@ -35,30 +34,44 @@
             <div id="tutorial"  style="display: none">
 
             </div>
+            <!--
+            <div id="menu-buttons">
+                <p>Toggle Sections</p>
+                <button id="inventory-button">Inventory</button>
+                <button id="transfer-button">Transfer</button>
+                <button id="command-button">Command</button>
+                <button id="market-button">Market</button>
+                
+            </div> -->
 
+            <div class="pages">
            
             <div id="top-section">
-       
-            <div id="apple-inventory">
-                <h2><strong>Apples & Workers</strong></h2>
-                <p id="apple-info"><strong>Current Apple Count:</strong> 0</p>
-                <p id="total-apples"><strong>Total (Estimated) Apples:</strong> 0</p>
-                <p id="JAA-fund"><strong>Laundered Money:</strong> 0</p>
-                <p id="apple-workers"><strong>Workers:</strong> 2</p>
-                <p id="daily-apples"><strong>Daily Collection:</strong> 4 Apples</p>
-         
-            </div>
 
-            <p><strong>Recruit More Workers: </strong> Each addtional worker results in +2 daily collection and +60 backpack storage size</p>
-            <button id="bribe-worker">Bribe Them ($156.25)</button>
-            <p class="warning" id="bribe-worker-warning"></p>
+
             
+                <div id="apple-inventory">
+                    <h2><strong>Apples & Workers</strong></h2>
+                    <p id="apple-info"><strong>Current Apple Count:</strong> 0</p>
+                    <p id="total-apples"><strong>Total (Estimated) Apples:</strong> 0</p>
+                    <p id="JAA-fund"><strong>Laundered Money:</strong> 0</p>
+                    <p id="apple-workers"><strong>Workers:</strong> 2</p>
+                    <p id="daily-apples"><strong>Daily Collection:</strong> 4 Apples</p>
+            
+                </div>
+
+                <p><strong>Recruit More Workers: </strong> Each addtional worker results in +2 daily collection and +60 backpack storage size</p>
+                <button id="bribe-worker">Bribe Them ($156.25)</button>
+                <p class="warning" id="bribe-worker-warning"></p>
+            
+        
+
             </div>
 
       
             <div id="transfer">
                 
-                    <h2><strong>Transfer & Store Apples</strong></h2>
+                <h2><strong>Transfer & Store Apples</strong></h2>
                     
                 <div id="transfer-text">
                     <p><strong>Apples in Backpacks:</strong> 0/60</p>
@@ -93,7 +106,7 @@
        
 
             <div id="appling">
-                <h2><strong>Apple Command Operations</strong></h2>
+                <h2><strong>Apple Command</strong></h2>
 
                
                 <p id="house-info"><strong>Target:</strong></p>
@@ -122,12 +135,13 @@
                 <p><strong>Launch Attack:</strong></p>
                 <button id="campaign" type="button">Send Convoy and Conduct Appling Campaign</button>
                 <p id="campaign-result" class="warning fade-out"></p>
+
             </div>
 
 
             <div id="market">
             <div id="black-market">
-                <h2>Black Market: Export Stolen Apples for Cash</h2>
+                <h2>Black Market</h2>
                 <p  id="market-rate"><strong>Global Apple Rate:</strong> [UNKNOWN] per apple</p>
             
                 
@@ -138,6 +152,7 @@
             </div>
                 <p id="market-warning" class="warning"></p>
             </div>
+            </div>
 
         </div>
 
@@ -147,6 +162,7 @@
 
 
     <footer>
+       
         <p>Unfortunately based on a real story</p>
         <p>RIP JAA (11/2021-4/2022)</p>
 

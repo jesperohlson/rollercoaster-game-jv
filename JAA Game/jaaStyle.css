@@ -6,16 +6,41 @@
 
 h1 {
     text-shadow: 0px 0px 5px red;
+    text-align: center;
     
 }
-
+  
 h2 {
     color: rgb(190, 1, 1);
-    border-bottom: 1px solid black;
+    
+    text-align: center;
+   
+}
+.pages {
+    display: inline-grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    gap: 1vw;
+    justify-content: center;
+    padding-left: 2vw;
+    padding-right: 2vw;
+
+
+    
    
 }
 
+#market {
+    
+ 
+}
 
+#market > buttons {
+
+    
+    justify-content: center;
+    
+}
 @keyframes fade-out {
     0%{opacity: 1;}
     100%{opacity: 0; display: none;}
@@ -42,23 +67,20 @@ button:hover{
 }
 
 
-.top-btns {   
-   
-    float: right;
+/* .top-btns {   
+    float: inline-end;
 }
 
-#scenario {
-    
-}
+.top-btns > p {
+    text-align: right;
+} */
 
-.top-btns, #scenario {
-  /*  display: inline-block;*/
 
-}
 
-#subheader {
-    position: static;
-}
+
+
+
+
 
 button:active {
     background: red;

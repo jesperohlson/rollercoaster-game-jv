@@ -68,6 +68,14 @@ const saveBtn = document.getElementById('save');                                
 const loadSaveBtn = document.getElementById('load-save');                           //load previous save button
 const resetWarningBtn = document.getElementById('reset-first');                     //reset warning button
 const resetBtn = document.getElementById('reset-second');                           //actual reset button
+const inventoryBtn = document.getElementById('inventory-button');                   //button to view inventory
+const topSection = document.getElementById('top-section');                          //top section (inventory)
+const transferBtn = document.getElementById('transfer-button');                     //button to view transfer information
+const transferPage = document.getElementById('transfer');                           //transfer section of the page 
+const commandBtn = document.getElementById('command-button');                       //button to view the command section 
+const commandPage = document.getElementById('appling');                             //apple command page
+const marketBtn = document.getElementById('market-button');                         //button to view market information 
+const marketPage = document.getElementById('market');                               //market page at bottom
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CONSTANTS/VARIABLES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -115,7 +123,12 @@ let shedBagArr = [];                            //tracks apples in the sheds
 
 let nextAvailVehicle = 0;                       //represents the current vehicle the user has in the vehicles array
 let shedUpgradeCount = 1;                       //represents the amount of times that the sheds have been upgraded 
-let currHouse = 0;                              //current house in house to apple array num
+let currHouse = 0;                              //current house in house to apple array nums
+
+                                                //NOT USED
+let unlockTransfer = false;                     //boolean if transfer menu has been unlocked (on this save)
+let unlockCommand = false;                      //boolean if command menu has been unlocked on this save
+let unlockMarket = false;                       //boolean if the black market has been unlocked
 
 
 
@@ -123,39 +136,55 @@ let thisSaveDeserialized = JSON.parse(localStorage.getItem("save"));    //save k
 
 //retrieve save if it already exists 
 if(thisSaveDeserialized != null) {
-apples = thisSaveDeserialized.applesSave;
-money = thisSaveDeserialized.moneySave;
-trashbags = thisSaveDeserialized.trashbagsSave;
-workers = thisSaveDeserialized.workersSave;
-sheds = thisSaveDeserialized.shedSave;
-shedCost = thisSaveDeserialized.shedCostSave;
-shedBags = thisSaveDeserialized.shedBagsSave;
-maxShedBags = thisSaveDeserialized.maxShedBagsSave;
-shedUpgradeCost = thisSaveDeserialized.shedUpgradeCostSave;
-backpackApples = thisSaveDeserialized.backpackApplesSave;
-trashbagApples = thisSaveDeserialized.trashbagApplesSave;
-forestBags = thisSaveDeserialized.forestBagsSave;
-appleSoldiers = thisSaveDeserialized.appleSoliderSave;
-backPackStorageSize = thisSaveDeserialized.backPackStorageSizeSave;
-trashBagStorageSize = thisSaveDeserialized.trashbagStorageSizeSave;
-maxTrashbags = thisSaveDeserialized.maxTrashbagsSave;
-totalApples = thisSaveDeserialized.totalApplesSave;
-forestBagArr = thisSaveDeserialized.forestBagArrSave;
-shedBagArr = thisSaveDeserialized.shedBagArrSave;
-nextAvailVehicle = thisSaveDeserialized.nextAvailVehicleSave;
-shedUpgradeCost = thisSaveDeserialized.shedUpgradeCostSave;
-currHouse = thisSaveDeserialized.currHouseSave;
+    apples = thisSaveDeserialized.applesSave;
+    money = thisSaveDeserialized.moneySave;
+    trashbags = thisSaveDeserialized.trashbagsSave;
+    workers = thisSaveDeserialized.workersSave;
+    sheds = thisSaveDeserialized.shedSave;
+    shedCost = thisSaveDeserialized.shedCostSave;
+    shedBags = thisSaveDeserialized.shedBagsSave;
+    maxShedBags = thisSaveDeserialized.maxShedBagsSave;
+    shedUpgradeCost = thisSaveDeserialized.shedUpgradeCostSave;
+    backpackApples = thisSaveDeserialized.backpackApplesSave;
+    trashbagApples = thisSaveDeserialized.trashbagApplesSave;
+    forestBags = thisSaveDeserialized.forestBagsSave;
+    appleSoldiers = thisSaveDeserialized.appleSoliderSave;
+    backPackStorageSize = thisSaveDeserialized.backPackStorageSizeSave;
+    trashBagStorageSize = thisSaveDeserialized.trashbagStorageSizeSave;
+    maxTrashbags = thisSaveDeserialized.maxTrashbagsSave;
+    totalApples = thisSaveDeserialized.totalApplesSave;
+    forestBagArr = thisSaveDeserialized.forestBagArrSave;
+    shedBagArr = thisSaveDeserialized.shedBagArrSave;
+    nextAvailVehicle = thisSaveDeserialized.nextAvailVehicleSave;
+    shedUpgradeCost = thisSaveDeserialized.shedUpgradeCostSave;
+    currHouse = thisSaveDeserialized.currHouseSave;
+    unlockCommand = thisSaveDeserialized.unlockCommandSave;
+    unlockMarket = thisSaveDeserialized.unlockMarketSave;
+    unlockTransfer = thisSaveDeserialized.unlockTransfer;
+
 }
+
+
 
 //give fade out animation to the warning messages bc css is doggy
 const warningFadeOutText = (el, msg) => {
     el.style.display = 'block';
     el.innerText = msg;
-    el.style.animation = 'fade-out 15s 1';
+    //el.style.animation = 'fade-out 15s ';
     setTimeout(() => {
         el.style.display = 'none';
     }, 14985);
 }//warningFadeOutText
+
+//fade out style but 5s instead of 15s
+const fadeOutFaster = (el, msg) => {
+    el.style.display = 'block';
+    el.innerText = msg;
+    el.style.animation = 'fade-out 5s 1';
+    setTimeout(() => {
+        el.style.display = 'none';
+    }, 4985);
+}
 
 //tutorial information for the user put it here instead of HTML file cuz
 tutorialInformation.innerHTML =  `
@@ -278,7 +307,7 @@ const houseToApple = [
     }
 ];
 
-//name of enemies that destroy sheds
+//name of enemies that destroy sheds NOT USED 
 const opps = [
     "Orange Citadel",
     "Strawberry Mafia",
@@ -495,7 +524,7 @@ function updateBlackMarket() {
     sellAppleRate = appleBlackMarketRate().toFixed(2);
     blackMarketText.innerHTML = `
     
-    <h2>Black Market: Export Stolen Apples for Cash</h2>
+    <h2>Black Market</h2>
     <p><strong>Global Apple Rate:</strong> $${sellAppleRate} per apple</p>
     <button type="button" id="sell-1">Sell 1 Trashbag ($${(1 * sellAppleRate  * 200).toFixed(2)})</button>
     <button type="button" id="sell-10">Sell 10 Trashbags ($${(10 * sellAppleRate  * 200).toFixed(2)})</button>
@@ -601,7 +630,7 @@ function sellApples(amt) {
         },5000)
 
     } else {
-        warningFadeOutText(marketWarning, 'Da Ro Says: You got no bags boy...')
+        warningFadeOutText(marketWarning, 'Da Ro Says: You got no bags boy...');
     }
 }//sellApples
 
@@ -805,7 +834,64 @@ resetWarningBtn.addEventListener('click', (e) => {
     } else {
         resetBtn.style.display = 'none';
     }
-})
+});
+
+//top menu buttons (not used, may bring back )
+
+// //show inventory menu
+// inventoryBtn.addEventListener('click', (e) => {
+
+//     e.preventDefault();
+
+//     if(topSection.style.display === 'none') {
+//         topSection.style.display = "block";
+//     } else {
+//         topSection.style.display = 'none';
+//     }
+
+// });
+
+// //show transfer menu 
+// transferBtn.addEventListener('click', (e) => {
+
+//     e.preventDefault();
+
+//     if(transferPage.style.display === 'none') {
+//             transferPage.style.display = "block";
+//     } else {
+//         transferPage.style.display = 'none';
+//     }
+
+// });
+
+// //show command menu 
+// commandBtn.addEventListener('click', (e) => {
+
+//     e.preventDefault();
+
+//     if(commandPage.style.display === 'none') {
+//         commandPage.style.display = "block";
+//     } else {
+//         commandPage.style.display = 'none';
+//     }
+
+// });
+
+
+// marketBtn.addEventListener('click', (e) => {
+//     e.preventDefault();
+
+    
+
+//     if(marketPage.style.display === 'none') {
+//             marketPage.style.display = "block";
+//     } else {
+//         marketPage.style.display = 'none';
+//     }
+
+
+
+// });
 
 //actual reset button that clears the current save on local storage
 resetBtn.addEventListener('click', (e) => {
@@ -914,6 +1000,9 @@ saveBtn.addEventListener('click', (e) => {
             nextAvailVehicleSave: nextAvailVehicle, 
             shedUpgradeCountSave: shedUpgradeCost, 
             currHouseSave: currHouse, //should save the war time index position 
+            unlockCommandSave: unlockCommand,
+            unlockMarketSave: unlockMarket,
+            unlockTransferSave: unlockTransfer
             
         }
 
